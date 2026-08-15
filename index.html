@@ -1,0 +1,2268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b1220">
+<title>DELTA Phonology Lab — GB/RP transcription and terminology</title>
+<style>
+:root{
+  --bg:#0b1220; --panel:#111c2f; --panel2:#17243a; --text:#eef4ff; --muted:#9fb0ca;
+  --accent:#68d5c3; --accent2:#f5c66a; --good:#6fe39b; --bad:#ff8c8c; --warn:#f5c66a; --line:#283854;
+  --shadow:0 16px 42px rgba(0,0,0,.25); --radius:18px;
+  --ipa:"Charis SIL","Doulos SIL","Gentium Plus","Noto Sans","Segoe UI","Lucida Sans Unicode","Arial Unicode MS",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:linear-gradient(145deg,#08101d,#111b2e 55%,#0b1322);color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.5}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.app{min-height:100vh;display:grid;grid-template-columns:290px 1fr}
+.sidebar{border-right:1px solid var(--line);padding:18px 14px;position:sticky;top:0;height:100vh;overflow:auto;background:rgba(9,16,29,.94)}
+.brand{display:flex;gap:12px;align-items:center;padding:4px 6px 16px}
+.logo{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#78a7ff);color:#08101d;font-weight:800;font-size:20px;font-family:var(--ipa)}
+.brand h1{font-size:15px;line-height:1.2;margin:0}.brand small{color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.stat{padding:9px 6px;border:1px solid var(--line);border-radius:12px;background:var(--panel);text-align:center}
+.stat b{display:block;font-size:16px}.stat span{color:var(--muted);font-size:11px}
+.level-nav{display:grid;gap:6px}
+.level-btn{width:100%;border:1px solid var(--line);background:transparent;padding:9px 10px;border-radius:12px;text-align:left;display:flex;gap:9px;align-items:center}
+.level-btn:hover{background:var(--panel)}
+.level-btn.active{border-color:var(--accent);background:rgba(104,213,195,.09)}
+.level-num{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;background:var(--panel2);font-size:11px;font-weight:800;flex:0 0 auto}
+.level-copy{min-width:0}.level-copy b{display:block;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+.level-copy small{color:var(--muted);font-size:11px}
+.sidebar-actions{display:grid;gap:7px;margin-top:16px}
+.ghost{border:1px solid var(--line);background:transparent;padding:9px 11px;border-radius:11px;text-align:left}
+.danger{border:1px solid rgba(255,140,140,.45);background:rgba(255,140,140,.08);color:#ffd6d6;padding:9px 11px;border-radius:11px;text-align:left}
+
+.main{padding:clamp(14px,3vw,36px);max-width:1180px;width:100%;margin:0 auto}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.mobile-menu{display:none}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 11px;color:var(--muted);font-size:12.5px}
+.hero{padding:clamp(18px,4vw,34px);border:1px solid var(--line);border-radius:24px;background:
+ radial-gradient(circle at 88% 12%,rgba(104,213,195,.14),transparent 26%),var(--panel);box-shadow:var(--shadow);margin-bottom:18px}
+.kicker{color:var(--accent);font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.hero h2{font-size:clamp(24px,4.4vw,44px);line-height:1.02;margin:8px 0 10px;max-width:840px;font-weight:700}
+.hero p{color:var(--muted);max-width:760px;margin:0}
+.progress-line{height:9px;background:#0a1323;border-radius:999px;overflow:hidden;border:1px solid var(--line);margin:14px 0 6px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#7da7ff);width:0;transition:.3s}
+.grid{display:grid;gap:14px}.grid.two{grid-template-columns:1.25fr .75fr}
+.card{border:1px solid var(--line);background:var(--panel);border-radius:var(--radius);padding:16px}
+.card h3,.card h4{margin-top:0}.muted{color:var(--muted)}.small{font-size:13px}.tiny{font-size:11.5px}
+.phase-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}
+.phase-btn{border:1px solid var(--line);background:var(--panel);padding:9px 13px;border-radius:999px;font-size:14px}
+.phase-btn.active{background:var(--accent);color:#07111c;border-color:var(--accent);font-weight:700}
+.lesson-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.teach-card{border:1px solid var(--line);border-radius:14px;padding:13px;background:linear-gradient(160deg,var(--panel2),#0e192b)}
+.ipa{font-family:var(--ipa);font-size:26px;font-weight:700;letter-spacing:.01em}
+.ipa.sm{font-size:19px}.ipa.xs{font-size:16px}
+.example{font-size:15px;margin:5px 0}
+.tag{display:inline-block;padding:3px 8px;border-radius:999px;background:rgba(104,213,195,.12);color:var(--accent);font-size:11px;font-weight:700}
+.tag.grey{background:rgba(159,176,202,.12);color:var(--muted)}
+.audio{border:1px solid var(--line);background:transparent;border-radius:10px;padding:6px 9px;margin-top:7px;font-size:12.5px}
+.audio:hover{border-color:var(--accent)}
+.primary{border:0;background:linear-gradient(135deg,var(--accent),#83a8ff);color:#06111c;font-weight:700;padding:10px 15px;border-radius:12px}
+.secondary{border:1px solid var(--line);background:var(--panel2);padding:10px 15px;border-radius:12px}
+.qhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.qcount{color:var(--muted);font-size:12px;white-space:nowrap}
+.prompt{font-size:clamp(17px,2.6vw,24px);line-height:1.35;margin:8px 0 4px}
+.stem{background:#0a1425;border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin:8px 0;font-size:15px}
+.choices{display:grid;gap:9px}
+.choice{border:1px solid var(--line);background:var(--panel2);padding:12px;border-radius:13px;text-align:left;width:100%}
+.choice:hover:not(:disabled){border-color:var(--accent)}
+.choice.correct{border-color:var(--good);background:rgba(111,227,155,.1)}
+.choice.wrong{border-color:var(--bad);background:rgba(255,140,140,.1)}
+.feedback{border-radius:14px;padding:13px 15px;border:1px solid var(--line);margin-top:12px}
+.feedback.good{background:rgba(111,227,155,.08);border-color:rgba(111,227,155,.38)}
+.feedback.part{background:rgba(245,198,106,.08);border-color:rgba(245,198,106,.38)}
+.feedback.bad{background:rgba(255,140,140,.08);border-color:rgba(255,140,140,.38)}
+.input-row{display:flex;gap:8px;margin-top:10px}
+.ipa-input{flex:1;min-width:0;border:1px solid var(--line);background:#091322;padding:12px 13px;border-radius:12px;font-size:19px;font-family:var(--ipa)}
+.keypad{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
+.keyrow{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px;align-items:center}
+.keyrow .lbl{font-size:10.5px;color:var(--muted);width:58px;flex:0 0 auto;text-transform:uppercase;letter-spacing:.08em}
+.key{min-width:36px;border:1px solid var(--line);background:var(--panel2);padding:7px 8px;border-radius:9px;font-family:var(--ipa);font-size:15px}
+.key:hover{border-color:var(--accent)}
+.difflane{font-family:var(--ipa);font-size:20px;display:flex;flex-wrap:wrap;gap:3px;margin:8px 0;align-items:center}
+.tok{padding:2px 5px;border-radius:6px;border:1px solid transparent}
+.tok.ok{background:rgba(111,227,155,.14);border-color:rgba(111,227,155,.3)}
+.tok.sub{background:rgba(255,140,140,.16);border-color:rgba(255,140,140,.45)}
+.tok.del{background:rgba(245,198,106,.16);border-color:rgba(245,198,106,.45)}
+.tok.ins{background:rgba(255,140,140,.1);border-color:rgba(255,140,140,.35);text-decoration:line-through}
+.tok.spc{opacity:.4}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-top:4px}
+.bigrow{display:flex;gap:22px;margin:6px 0 12px}
+.bigrow div{display:flex;flex-direction:column}
+.big{font-size:32px;line-height:1}
+.dots{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.dot{width:13px;height:13px;border-radius:4px;background:#1b2942;border:1px solid var(--line)}
+.dot.on{background:var(--accent);border-color:var(--accent)}
+.modlist{display:grid;gap:7px}
+.modrow{display:grid;grid-template-columns:1fr 90px 38px 52px;gap:9px;align-items:center;font-size:12.5px}
+.modname{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.modbar{height:8px;background:#0a1323;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.modbar span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#7da7ff)}
+.modpct{text-align:right;color:var(--muted)}
+.modnum{text-align:right;color:var(--muted)}
+.okmsg{color:var(--good)}.errmsg{color:var(--bad)}
+@media(max-width:520px){.modrow{grid-template-columns:1fr 60px 34px 46px}}
+.syls{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.syl{border:1px solid var(--line);background:var(--panel2);padding:11px 15px;border-radius:12px;font-size:18px}
+.syl.correct{border-color:var(--good);background:rgba(111,227,155,.12)}
+.syl.wrong{border-color:var(--bad);background:rgba(255,140,140,.12)}
+.selfmark{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.ptrow{display:flex;gap:9px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.45;cursor:pointer}
+.ptrow input{margin-top:3px;flex:0 0 auto;width:17px;height:17px}
+.ptrow:last-of-type{border-bottom:0}
+.score-ring{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;margin:auto;background:conic-gradient(var(--accent) var(--pct),#24344e 0);position:relative}
+.score-ring:after{content:"";position:absolute;width:84px;height:84px;background:var(--panel);border-radius:50%}
+.score-ring b{z-index:1;font-size:23px}
+.badges{display:flex;gap:7px;flex-wrap:wrap}
+.badge{border:1px solid var(--line);border-radius:11px;padding:6px 9px;background:var(--panel2);font-size:11.5px}
+.badge.locked{opacity:.32}
+.notice{border-left:4px solid var(--accent2);padding:11px 13px;background:rgba(245,198,106,.07);border-radius:10px;color:#f7e8bf;font-size:13.5px}
+hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+details{border:1px solid var(--line);border-radius:12px;padding:11px 13px;background:var(--panel2);margin-top:10px}
+summary{cursor:pointer;font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.footer{color:var(--muted);font-size:12px;padding:22px 4px 40px;max-width:820px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+.modal.open{display:flex}
+.modal-card{width:min(720px,100%);max-height:88vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:20px}
+textarea{width:100%;min-height:150px;border:1px solid var(--line);border-radius:12px;background:#08111f;padding:11px;font-family:ui-monospace,monospace;font-size:12.5px}
+.rowbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+@media(max-width:900px){
+ .app{grid-template-columns:1fr}
+ .sidebar{position:fixed;z-index:40;left:-320px;width:290px;transition:.25s}
+ .sidebar.open{left:0;box-shadow:30px 0 80px rgba(0,0,0,.55)}
+ .mobile-menu{display:inline-flex}
+ .grid.two{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+ .hero h2{font-size:28px}.card{padding:13px}.input-row{flex-direction:column}
+ .keyrow .lbl{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="logo">ə</div>
+      <div><h1>DELTA Phonology Lab</h1><small>GB/RP model · Module One prep</small></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="xpStat">0</b><span>day streak</span></div>
+      <div class="stat"><b id="dueStat">0</b><span>to review</span></div>
+      <div class="stat"><b id="masteryStat">0%</b><span>complete</span></div>
+    </div>
+    <div class="level-nav" id="levelNav"></div>
+    <div class="sidebar-actions">
+      <button class="ghost" data-act="dash">Progress dashboard</button>
+      <button class="ghost" data-act="review">Review due items (all modules)</button>
+      <button class="ghost" data-act="errorlog">Error log</button>
+      <button class="ghost" data-act="reference">IPA reference</button>
+      <button class="ghost" data-act="sync">Sync across devices</button>
+      <button class="ghost" data-act="progress">Export / import progress</button>
+      <button class="danger" data-act="reset">Reset progress</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <button class="ghost mobile-menu" data-act="menu">Modules</button>
+      <div class="pill">Pass mark <b>&nbsp;80%</b></div>
+      <div class="pill" id="storeStatus">Storage: checking</div>
+      <div class="pill" id="syncStatus">Sync: off</div>
+      <div class="pill" id="voiceStatus">Audio: checking</div>
+    </div>
+    <section id="content"></section>
+    <div class="footer" id="footerNote">
+      This trainer uses a broad phonemic model of Standard Southern British English (the accent usually labelled RP or GB in ELT
+      materials), following the Gimson/Cruttenden inventory used by Cambridge dictionaries and by most DELTA reference books.
+      Real speakers and dictionaries show legitimate variation; where a form is contested the item says so.
+      Device text-to-speech produces careful citation forms and will not reliably demonstrate assimilation, elision or weak forms —
+      treat the printed IPA, not the audio, as the model.
+      The exam-craft modules draw on published Cambridge Delta Module One examination reports and on the task weightings given by
+      ELT Concourse and Teflpedia; the practice items are written for this trainer and are not Cambridge material. Check the current
+      Handbook for Tutors and Candidates before relying on any mark or timing figure.
+    </div>
+  </main>
+</div>
+<div class="modal" id="modal"><div class="modal-card" id="modalCard"></div></div>
+
+<script>
+"use strict";
+
+/* ============================================================
+   1. STORAGE  (artifact storage -> localStorage -> memory)
+   ============================================================ */
+const MEM = {};
+const KEY = "deltaPhonologyLab.v2";
+let storeMode = "memory";
+const store = {
+  async load(){
+    if (typeof window !== "undefined" && window.storage && typeof window.storage.get === "function"){
+      storeMode = "synced";
+      try { const r = await window.storage.get(KEY); return r ? JSON.parse(r.value) : null; }
+      catch(e){ return null; }
+    }
+    try { if (window.localStorage){ storeMode = "this browser"; const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : null; } }
+    catch(e){ /* blocked */ }
+    storeMode = "this session only";
+    return MEM[KEY] || null;
+  },
+  async save(obj){
+    MEM[KEY] = obj;
+    if (typeof window !== "undefined" && window.storage && typeof window.storage.set === "function"){
+      try { await window.storage.set(KEY, JSON.stringify(obj)); } catch(e){}
+      return;
+    }
+    try { if (window.localStorage) localStorage.setItem(KEY, JSON.stringify(obj)); } catch(e){}
+  }
+};
+
+/* ============================================================
+   2. IPA UTILITIES — tokenising, normalising, alignment scoring
+   ============================================================ */
+const DIGRAPHS = ["tʃ","dʒ","eɪ","aɪ","ɔɪ","əʊ","aʊ","ɪə","eə","ʊə","iː","uː","ɑː","ɔː","ɜː"];
+const SINGLES  = ["p","b","t","d","k","ɡ","f","v","θ","ð","s","z","ʃ","ʒ","h","m","n","ŋ","l","r","j","w",
+                  "ɪ","e","æ","ʌ","ɒ","ʊ","ə","i","u"];
+
+function normalise(str){
+  let t = String(str || "").normalize("NFC").trim().toLowerCase();
+  t = t.replace(/[\/\[\]|]/g, "");
+  t = t.replace(/g/g, "ɡ").replace(/ɹ/g, "r").replace(/ʤ/g, "dʒ").replace(/ʧ/g, "tʃ");
+  t = t.replace(/[:˸]/g, "ː");
+  t = t.replace(/['`\u2018\u2019]/g, "ˈ").replace(/,/g, "ˌ");
+  t = t.replace(/n\u0329/g, "ən").replace(/l\u0329/g, "əl").replace(/m\u0329/g, "əm").replace(/r\u0329/g, "ər");
+  t = t.replace(/\u0329/g, "");
+  t = t.replace(/\s+/g, " ");
+  return t;
+}
+function tokenise(str){
+  const out = [], s = str;
+  let i = 0;
+  while (i < s.length){
+    const two = s.slice(i, i + 2);
+    if (DIGRAPHS.indexOf(two) > -1){ out.push(two); i += 2; continue; }
+    const ch = s[i];
+    if (ch === " "){ out.push("␣"); i++; continue; }
+    out.push(ch); i++;
+  }
+  return out;
+}
+const isStress = t => t === "ˈ" || t === "ˌ";
+
+function align(a, b){                       // a = learner tokens, b = model tokens
+  const n = a.length, m = b.length;
+  const d = [];
+  for (let i = 0; i <= n; i++){ d.push(new Array(m + 1).fill(0)); d[i][0] = i; }
+  for (let j = 0; j <= m; j++) d[0][j] = j;
+  for (let i = 1; i <= n; i++)
+    for (let j = 1; j <= m; j++)
+      d[i][j] = Math.min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+  const ops = [];
+  let i = n, j = m;
+  while (i > 0 || j > 0){
+    if (i > 0 && j > 0 && d[i][j] === d[i-1][j-1] + (a[i-1] === b[j-1] ? 0 : 1)){
+      ops.push({ t: a[i-1] === b[j-1] ? "ok" : "sub", u: a[i-1], g: b[j-1] }); i--; j--;
+    } else if (i > 0 && d[i][j] === d[i-1][j] + 1){
+      ops.push({ t: "ins", u: a[i-1], g: null }); i--;
+    } else {
+      ops.push({ t: "del", u: null, g: b[j-1] }); j--;
+    }
+  }
+  ops.reverse();
+  return { ops, dist: d[n][m] };
+}
+
+/* Compare a learner transcription against a model plus any accepted variants.
+   Returns the best result: exact / stress / partial, a token diff, and a 0–1 score. */
+function checkTranscription(userRaw, model, variants){
+  const cands = [model].concat(variants || []);
+  let best = null;
+  cands.forEach(cand => {
+    let u = tokenise(normalise(userRaw));
+    let g = tokenise(normalise(cand));
+    const notes = [];
+    if (u.indexOf("␣") === -1 && g.indexOf("␣") > -1){
+      g = g.filter(t => t !== "␣");
+      notes.push("Word spaces were ignored because you did not type any. In phrase transcription, keep the spaces — they show where the word boundaries are.");
+    }
+    if (u.indexOf("ʔ") > -1) notes.push("You used ʔ. Glottal stop is an allophone of /t/, not a separate phoneme — in broad phonemic transcription write /t/.");
+    const full = align(u, g);
+    const uNo = u.filter(t => !isStress(t)), gNo = g.filter(t => !isStress(t));
+    const noStress = align(uNo, gNo);
+    const uSec = u.filter(t => t !== "ˌ"), gSec = g.filter(t => t !== "ˌ");
+    const noSec = align(uSec, gSec);
+    let verdict = "partial", score;
+    if (full.dist === 0){ verdict = "exact"; score = 1; }
+    else if (noSec.dist === 0){ verdict = "secondary"; score = 0.9; }
+    else if (noStress.dist === 0){ verdict = "stress"; score = 0.6; }
+    else score = Math.max(0, 1 - full.dist / Math.max(gNo.length, 1));
+    const res = { verdict, score, diff: full.ops, dist: full.dist, notes, model: cand,
+                  segScore: Math.max(0, 1 - noStress.dist / Math.max(gNo.length, 1)) };
+    if (!best || res.score > best.score) best = res;
+  });
+  return best;
+}
+function diffHTML(ops){
+  return ops.map(o => {
+    if (o.t === "ok")  return '<span class="tok ok' + (o.g === "␣" ? " spc" : "") + '">' + (o.g === "␣" ? "␣" : esc(o.g)) + "</span>";
+    if (o.t === "sub") return '<span class="tok sub" title="you wrote ' + esc(o.u) + '">' + esc(o.g) + "</span>";
+    if (o.t === "del") return '<span class="tok del" title="missing">' + esc(o.g === "␣" ? "␣" : o.g) + "</span>";
+    return '<span class="tok ins" title="extra">' + esc(o.u === "␣" ? "␣" : o.u) + "</span>";
+  }).join("");
+}
+function errorSentences(ops){
+  const out = [];
+  ops.forEach(o => {
+    if (o.t === "sub") out.push("you wrote /" + o.u + "/ where the model has /" + o.g + "/");
+    else if (o.t === "del") out.push("/" + (o.g === "␣" ? "a word space" : o.g) + "/ is missing");
+    else if (o.t === "ins") out.push("/" + (o.u === "␣" ? "an extra space" : o.u) + "/ is not in the model");
+  });
+  return out.slice(0, 6);
+}
+
+/* ============================================================
+   3. CONTENT
+   ============================================================ */
+
+const CONS = [
+ ["p","pen","/pen/","voiceless (fortis)","bilabial","plosive","Aspirated [pʰ] at the start of a stressed syllable; unaspirated after /s/ (spin). Often unreleased word-finally."],
+ ["b","bed","/bed/","voiced (lenis)","bilabial","plosive","Only fully voiced between voiced sounds; partly devoiced at the edges of an utterance."],
+ ["t","tea","/tiː/","voiceless (fortis)","alveolar","plosive","Aspirated initially in stressed syllables; widely realised as glottal [ʔ] before a consonant or finally in modern British speech."],
+ ["d","day","/deɪ/","voiced (lenis)","alveolar","plosive","Partly devoiced at utterance edges; commonly elided in clusters (old man)."],
+ ["k","key","/kiː/","voiceless (fortis)","velar","plosive","Aspirated initially; unaspirated after /s/ (skin)."],
+ ["ɡ","go","/ɡəʊ/","voiced (lenis)","velar","plosive","Note the IPA symbol ɡ, not the typographic g."],
+ ["f","fan","/fæn/","voiceless (fortis)","labiodental","fricative","Stable; a frequent substitution target for /θ/ in some accents (th-fronting)."],
+ ["v","van","/væn/","voiced (lenis)","labiodental","fricative","Devoiced finally: have [hæv̥]. Merged with /w/ as [ʋ] by many Indian English speakers."],
+ ["θ","think","/θɪŋk/","voiceless (fortis)","dental","fricative","Realised as a dental plosive [t̪] by many learners; as [f] in th-fronting accents."],
+ ["ð","this","/ðɪs/","voiced (lenis)","dental","fricative","Very frequent in function words, so very frequently weakened or assimilated in connected speech."],
+ ["s","see","/siː/","voiceless (fortis)","alveolar","fricative","Part of the only three-consonant onsets English allows (/spr- str- skw-/)."],
+ ["z","zoo","/zuː/","voiced (lenis)","alveolar","fricative","Devoiced at utterance edges; the plural/3rd-person morpheme alternates /s ~ z ~ ɪz/."],
+ ["ʃ","shoe","/ʃuː/","voiceless (fortis)","postalveolar","fricative","Also written palato-alveolar in older textbooks."],
+ ["ʒ","vision","/ˈvɪʒən/","voiced (lenis)","postalveolar","fricative","Rare word-initially in English; occurs mainly in loanwords (genre)."],
+ ["h","hat","/hæt/","voiceless (fortis)","glottal","fricative","Only occurs in syllable onsets. Dropped from unstressed pronouns and auxiliaries in connected speech (tell him)."],
+ ["tʃ","chair","/tʃeə/","voiceless (fortis)","postalveolar","affricate","One phoneme written with two symbols. Product of /t/+/j/ coalescence (don't you)."],
+ ["dʒ","jam","/dʒæm/","voiced (lenis)","postalveolar","affricate","One phoneme written with two symbols. Product of /d/+/j/ coalescence (did you)."],
+ ["m","man","/mæn/","voiced","bilabial","nasal","Can be syllabic after a bilabial (rhythm /ˈrɪðəm/ or [ˈrɪðm̩])."],
+ ["n","no","/nəʊ/","voiced","alveolar","nasal","Frequently syllabic (button [ˈbʌtn̩]) and a frequent target of place assimilation (ten boys)."],
+ ["ŋ","sing","/sɪŋ/","voiced","velar","nasal","Never occurs word-initially. Compare singer /ˈsɪŋə/ with finger /ˈfɪŋɡə/ — the /ɡ/ is present only in the second."],
+ ["l","leg","/leɡ/","voiced","alveolar","lateral approximant","Clear [l] before a vowel, dark [ɫ] before a consonant or finally, often vocalised to [ʊ]. Syllabic in bottle."],
+ ["r","red","/red/","voiced","postalveolar","approximant","Non-rhotic: it appears only before a vowel. Devoiced after a fortis plosive (try [tɹ̥aɪ])."],
+ ["j","yes","/jes/","voiced","palatal","approximant","Devoiced after /p t k/ (tune). Coalesces with a preceding /t d/ in modern British speech."],
+ ["w","wet","/wet/","voiced","labial-velar","approximant","Two places of articulation at once. Devoiced after /t k/ (twin, quick)."]
+];
+
+const MONO = [
+ ["iː","sheep","/ʃiːp/","FLEECE","long","close","front","unrounded","Slightly diphthongal onset [ɪi] in careful GB speech."],
+ ["ɪ","ship","/ʃɪp/","KIT","short","near-close","near-front (centralised)","unrounded","The single most useful contrast to drill: /ɪ/ is not a short /iː/, it is a different quality."],
+ ["e","bed","/bed/","DRESS","short","between close-mid and open-mid","front","unrounded","Some books transcribe this /ɛ/; the Cambridge/Gimson model uses /e/."],
+ ["æ","cat","/kæt/","TRAP","short","near-open","front","unrounded","Increasingly open in modern GB, approaching cardinal [a]."],
+ ["ʌ","cup","/kʌp/","STRUT","short","open-mid to near-open","central","unrounded","The symbol's IPA value is back, but the GB realisation is central. Absent from northern English accents."],
+ ["ɑː","car","/kɑː/","START / PALM / BATH","long","open","back","unrounded","BATH words (bath, dance) have /æ/ in northern England and most of North America."],
+ ["ɒ","not","/nɒt/","LOT","short","open","back","rounded","Unrounded and merged with /ɑː/ in most North American accents."],
+ ["ɔː","thought","/θɔːt/","THOUGHT / NORTH / FORCE","long","between open-mid and close-mid","back","rounded","Has risen in modern GB and is now quite close."],
+ ["ʊ","book","/bʊk/","FOOT","short","near-close","near-back (centralised)","weakly rounded","Contrast with /uː/ is quality plus length, not length alone."],
+ ["uː","food","/fuːd/","GOOSE","long","close","back","rounded","Strongly fronted in modern GB, often nearer [ʉː]."],
+ ["ɜː","bird","/bɜːd/","NURSE","long","mid","central","unrounded","Non-rhotic: no /r/ is pronounced unless a vowel follows."],
+ ["ə","about","/əˈbaʊt/","commA / lettER","short","mid","central","unrounded","Only occurs in unstressed syllables. The highest-value vowel in the whole inventory for listening and rhythm."]
+];
+
+const WEAKV = [
+ ["i","happy","/ˈhæpi/","A neutralised weak vowel between /ɪ/ and /iː/. Used word-finally (city, coffee) and before a vowel (react /riˈækt/). Older Gimson transcriptions use /ɪ/ here."],
+ ["u","influence","/ˈɪnfluəns/","A neutralised weak vowel between /ʊ/ and /uː/, used before another vowel and in weak forms of to/you before a vowel."]
+];
+
+const DIPH = [
+ ["eɪ","face","/feɪs/","FACE","closing","Monophthongal [eː] in many Indian, northern English and Scottish accents."],
+ ["aɪ","price","/praɪs/","PRICE","closing","Clipped before fortis consonants: price is shorter than prize."],
+ ["ɔɪ","choice","/tʃɔɪs/","CHOICE","closing","The most stable English diphthong across accents."],
+ ["əʊ","goat","/ɡəʊt/","GOAT","closing","Monophthongal [oː] in Indian, northern English and Scottish accents; [oʊ] in North America."],
+ ["aʊ","mouth","/maʊθ/","MOUTH","closing","Wide variation in first element across accents."],
+ ["ɪə","near","/nɪə/","NEAR","centring","Centring diphthongs exist only because the accent is non-rhotic."],
+ ["eə","square","/skweə/","SQUARE","centring","Now usually a long monophthong [ɛː] in modern GB; the diphthong is the traditional teaching model."],
+ ["ʊə","cure","/kjʊə/","CURE","centring","Increasingly merged with /ɔː/ (cure /kjɔː/, sure /ʃɔː/). Retained here as the traditional model."]
+];
+
+const ALLO = [
+ ["Aspiration","pin [pʰɪn] vs spin [spɪn]","Same phoneme /p/, two allophones. Fortis plosives are aspirated at the start of a stressed syllable but not after /s/. Learners who transfer unaspirated plosives can sound as though they said /b d ɡ/."],
+ ["Clear and dark /l/","leaf [liːf] vs feel [fiːɫ]","Clear [l] before a vowel, dark (velarised) [ɫ] before a consonant or finally. Some learners use clear [l] everywhere; some GB speakers vocalise the dark one to [ʊ]."],
+ ["Pre-fortis clipping","beat vs bead","The vowel is audibly shorter before a fortis consonant. In minimal pairs like beat/bead the vowel length, not the final consonant's voicing, often carries the contrast for listeners."],
+ ["Glottalling","football [ˈfʊʔbɔːl]","/t/ is realised as a glottal stop [ʔ] before a consonant and finally in most modern British speech. Still transcribed /t/ at the phonemic level."],
+ ["Devoicing of approximants","play [pl̥eɪ], try [tɹ̥aɪ], quick [kw̥ɪk]","/l r w j/ are devoiced after a fortis plosive in the same onset."],
+ ["Syllabic consonants","button [ˈbʌtn̩], bottle [ˈbɒtl̩]","A nasal or lateral can be the nucleus of an unstressed syllable, with no vowel. Released nasally or laterally. Often written /ˈbʌtən/ in broad transcription."],
+ ["Nasal and lateral release","sudden, little","The plosive is released through the nose or the sides of the tongue rather than centrally — the mechanism behind syllabic consonants."],
+ ["Partial devoicing of lenis consonants","bad [b̥æd̥]","Lenis consonants are only fully voiced between voiced sounds. The fortis/lenis label is more accurate than voiceless/voiced for English."]
+];
+
+const MINPAIRS = [
+ ["ship / sheep","/ʃɪp/ · /ʃiːp/","/ɪ/ vs /iː/"],
+ ["full / fool","/fʊl/ · /fuːl/","/ʊ/ vs /uː/"],
+ ["cat / cut","/kæt/ · /kʌt/","/æ/ vs /ʌ/"],
+ ["bad / bed","/bæd/ · /bed/","/æ/ vs /e/"],
+ ["cot / caught","/kɒt/ · /kɔːt/","/ɒ/ vs /ɔː/"],
+ ["work / walk","/wɜːk/ · /wɔːk/","/ɜː/ vs /ɔː/"],
+ ["thin / sin","/θɪn/ · /sɪn/","/θ/ vs /s/"],
+ ["then / den","/ðen/ · /den/","/ð/ vs /d/"],
+ ["van / ban","/væn/ · /bæn/","/v/ vs /b/"],
+ ["wet / vet","/wet/ · /vet/","/w/ vs /v/"],
+ ["light / right","/laɪt/ · /raɪt/","/l/ vs /r/"],
+ ["sheep / cheap","/ʃiːp/ · /tʃiːp/","/ʃ/ vs /tʃ/"],
+ ["cheap / jeep","/tʃiːp/ · /dʒiːp/","/tʃ/ vs /dʒ/"],
+ ["pull / pool","/pʊl/ · /puːl/","/ʊ/ vs /uː/"]
+];
+
+/* Spelling and sound */
+const OUGH = [
+ ["through","/θruː/"],["though","/ðəʊ/"],["thought","/θɔːt/"],["tough","/tʌf/"],
+ ["cough","/kɒf/"],["bough","/baʊ/"],["thorough","/ˈθʌrə/"],["borough","/ˈbʌrə/"]
+];
+const SILENT = [
+ ["knee","/niː/","silent k"],["wrist","/rɪst/","silent w"],["lamb","/læm/","silent b"],
+ ["castle","/ˈkɑːsəl/","silent t"],["debt","/det/","silent b"],["island","/ˈaɪlənd/","silent s"],
+ ["honest","/ˈɒnɪst/","silent h"],["receipt","/rɪˈsiːt/","silent p"],["sword","/sɔːd/","silent w"],
+ ["Wednesday","/ˈwenzdeɪ/","silent d"],["muscle","/ˈmʌsəl/","silent c"],["subtle","/ˈsʌtəl/","silent b"],
+ ["salmon","/ˈsæmən/","silent l"],["choir","/ˈkwaɪə/","ch spelt, /kw/ pronounced"]
+];
+const ONESOUND = [
+ ["/iː/","see, sea, machine, key, receive, people, ski, quay"],
+ ["/eɪ/","face, rain, they, weigh, great, straight, gauge"],
+ ["/uː/","food, blue, through, shoe, group, fruit, two"],
+ ["/ʃ/","shoe, sugar, machine, nation, ocean, tension, conscious"],
+ ["/k/","cat, key, school, quiet, unique, khaki"],
+ ["/ə/","about, teacher, doctor, murmur, suppose, particular"]
+];
+const HOMOPHONE = [
+ ["their / there / they're","/ðeə/"],["flour / flower","/ˈflaʊə/"],["weather / whether","/ˈweðə/"],
+ ["plane / plain","/pleɪn/"],["sight / site / cite","/saɪt/"],["break / brake","/breɪk/"],
+ ["peace / piece","/piːs/"],["court / caught","/kɔːt/"],["bored / board","/bɔːd/"],["aloud / allowed","/əˈlaʊd/"]
+];
+const HOMOGRAPH = [
+ ["read","/riːd/ present","/red/ past"],["lead","/liːd/ to guide","/led/ the metal"],
+ ["tear","/tɪə/ from the eye","/teə/ to rip"],["wind","/wɪnd/ air","/waɪnd/ to turn"],
+ ["live","/lɪv/ verb","/laɪv/ adjective"],["close","/kləʊs/ near","/kləʊz/ to shut"],
+ ["use","/juːs/ noun","/juːz/ verb"],["row","/rəʊ/ a line","/raʊ/ an argument"],
+ ["minute","/ˈmɪnɪt/ 60 seconds","/maɪˈnjuːt/ tiny"]
+];
+
+/* Syllable structure */
+const SYLL = [
+ ["a","/ə/","V","onset none · nucleus /ə/ · coda none"],
+ ["at","/æt/","VC","onset none · nucleus /æ/ · coda /t/"],
+ ["cat","/kæt/","CVC","onset /k/ · nucleus /æ/ · coda /t/"],
+ ["stop","/stɒp/","CCVC","onset /st/ · nucleus /ɒ/ · coda /p/"],
+ ["spring","/sprɪŋ/","CCCVC","onset /spr/ — the maximum English onset: /s/ + fortis plosive + approximant"],
+ ["strengths","/streŋθs/","CCCVCCC","onset /str/ · coda /ŋθs/. Some speakers insert /k/: /streŋkθs/"],
+ ["texts","/teksts/","CVCCCC","a four-consonant coda, close to the English limit"],
+ ["sixths","/sɪksθs/","CVCCCC","notoriously hard for learners; commonly simplified by elision"],
+ ["button","/ˈbʌtən/","CVCC̩","the second syllable can have a syllabic /n/ as its nucleus: [ˈbʌtn̩]"],
+ ["bottle","/ˈbɒtəl/","CVCC̩","the second syllable can have a syllabic /l/ as its nucleus: [ˈbɒtl̩]"]
+];
+
+/* Word transcription bank: [word, model, note, variants] */
+const WORDS = [
+ ["ship","/ʃɪp/","KIT vowel",[]],
+ ["sheep","/ʃiːp/","FLEECE vowel",[]],
+ ["car","/kɑː/","non-rhotic: no final /r/",[]],
+ ["bird","/bɜːd/","non-rhotic NURSE vowel",[]],
+ ["about","/əˈbaʊt/","unstressed first syllable takes schwa",[]],
+ ["teacher","/ˈtiːtʃə/","final /r/ absent; /tʃ/ is one phoneme",[]],
+ ["student","/ˈstjuːdənt/","GB usually keeps the yod after /t/",["/ˈstjuːdnt/","/ˈstʃuːdənt/"]],
+ ["language","/ˈlæŋɡwɪdʒ/","note the /ŋɡ/ cluster and final /dʒ/",[]],
+ ["English","/ˈɪŋɡlɪʃ/","/ŋɡ/, not /ŋ/ alone",[]],
+ ["phonemic","/fəˈniːmɪk/","weak first syllable",[]],
+ ["transcription","/trænˈskrɪpʃən/","stress on the second syllable",["/trɑːnˈskrɪpʃən/","/trænˈskrɪpʃn/"]],
+ ["pronunciation","/prəˌnʌnsiˈeɪʃən/","five syllables; primary stress on the fourth",["/prəˌnʌnsiˈeɪʃn/"]],
+ ["comfortable","/ˈkʌmftəbəl/","compressed in normal speech",["/ˈkʌmfətəbəl/","/ˈkʌmftəbl/"]],
+ ["vegetable","/ˈvedʒtəbəl/","the second orthographic syllable is lost",["/ˈvedʒɪtəbəl/","/ˈvedʒtəbl/"]],
+ ["chocolate","/ˈtʃɒklət/","three letters, two syllables",["/ˈtʃɒkələt/"]],
+ ["camera","/ˈkæmərə/","schwa twice",["/ˈkæmrə/"]],
+ ["interesting","/ˈɪntrəstɪŋ/","commonly three syllables",["/ˈɪntərestɪŋ/","/ˈɪntrestɪŋ/"]],
+ ["library","/ˈlaɪbrəri/","three syllables in careful GB",["/ˈlaɪbri/"]],
+ ["different","/ˈdɪfrənt/","the middle vowel is usually elided",["/ˈdɪfərənt/"]],
+ ["family","/ˈfæməli/","final weak /i/",["/ˈfæmli/","/ˈfæməlɪ/"]],
+ ["probably","/ˈprɒbəbli/","frequently compressed further in speech",["/ˈprɒbli/"]],
+ ["education","/ˌedʒuˈkeɪʃən/","secondary then primary stress",["/ˌedjuˈkeɪʃən/","/ˌedʒʊˈkeɪʃn/"]],
+ ["university","/ˌjuːnɪˈvɜːsəti/","primary stress on the third syllable",["/ˌjuːnɪˈvɜːsɪti/"]],
+ ["assessment","/əˈsesmənt/","weak first syllable",[]],
+ ["methodology","/ˌmeθəˈdɒlədʒi/","primary stress on the third syllable",[]],
+ ["analysis","/əˈnæləsɪs/","compare analyse /ˈænəlaɪz/",["/əˈnælɪsɪs/"]],
+ ["learner","/ˈlɜːnə/","two non-rhotic vowels",[]],
+ ["grammar","/ˈɡræmə/","the second syllable is schwa, not /ɑː/",[]],
+ ["vocabulary","/vəˈkæbjələri/","weak first syllable",["/vəˈkæbjʊləri/"]],
+ ["syllable","/ˈsɪləbəl/","or with a syllabic /l/",["/ˈsɪləbl/"]],
+ ["sentence","/ˈsentəns/","the second vowel is schwa",["/ˈsentns/"]],
+ ["banana","/bəˈnɑːnə/","schwa on both sides of the stressed vowel",[]],
+ ["photograph","/ˈfəʊtəɡrɑːf/","stress on the first syllable",[]],
+ ["photography","/fəˈtɒɡrəfi/","the suffix moves the stress",[]],
+ ["photographic","/ˌfəʊtəˈɡræfɪk/","-ic pulls stress onto the preceding syllable",[]],
+ ["opportunity","/ˌɒpəˈtjuːnəti/","non-rhotic second syllable",["/ˌɒpəˈtjuːnɪti/"]],
+ ["curriculum","/kəˈrɪkjələm/","weak first and final syllables",["/kəˈrɪkjʊləm/"]],
+ ["pedagogy","/ˈpedəɡɒdʒi/","stress on the first syllable",["/ˈpedəɡɒɡi/"]],
+ ["thought","/θɔːt/","one syllable, three phonemes",[]],
+ ["strengths","/streŋθs/","three-consonant onset and coda",["/streŋkθs/"]],
+ ["record (noun)","/ˈrekɔːd/","noun: first-syllable stress",[]],
+ ["record (verb)","/rɪˈkɔːd/","verb: second-syllable stress",[]],
+ ["present (noun)","/ˈprezənt/","noun and adjective",["/ˈpreznt/"]],
+ ["present (verb)","/prɪˈzent/","verb",[]],
+ ["object (noun)","/ˈɒbdʒɪkt/","noun",["/ˈɒbdʒekt/"]],
+ ["object (verb)","/əbˈdʒekt/","verb",[]],
+ ["produce (noun)","/ˈprɒdjuːs/","noun",[]],
+ ["produce (verb)","/prəˈdjuːs/","verb",[]],
+ ["permit (noun)","/ˈpɜːmɪt/","noun",[]],
+ ["permit (verb)","/pəˈmɪt/","verb",[]]
+];
+
+/* Syllable-tap stress items: [word, syllables, index of primary stress, ipa] */
+const STRESSWORDS = [
+ ["photograph",["pho","to","graph"],0,"/ˈfəʊtəɡrɑːf/"],
+ ["photography",["pho","tog","ra","phy"],1,"/fəˈtɒɡrəfi/"],
+ ["photographic",["pho","to","graph","ic"],2,"/ˌfəʊtəˈɡræfɪk/"],
+ ["education",["ed","u","ca","tion"],2,"/ˌedʒuˈkeɪʃən/"],
+ ["university",["u","ni","ver","si","ty"],2,"/ˌjuːnɪˈvɜːsəti/"],
+ ["methodology",["me","tho","do","lo","gy"],2,"/ˌmeθəˈdɒlədʒi/"],
+ ["pronunciation",["pro","nun","ci","a","tion"],3,"/prəˌnʌnsiˈeɪʃən/"],
+ ["analysis",["a","nal","y","sis"],1,"/əˈnæləsɪs/"],
+ ["assessment",["as","sess","ment"],1,"/əˈsesmənt/"],
+ ["vocabulary",["vo","cab","u","lar","y"],1,"/vəˈkæbjələri/"],
+ ["opportunity",["op","por","tu","ni","ty"],2,"/ˌɒpəˈtjuːnəti/"],
+ ["economic",["ec","o","nom","ic"],2,"/ˌiːkəˈnɒmɪk/"],
+ ["economy",["e","con","o","my"],1,"/ɪˈkɒnəmi/"],
+ ["curriculum",["cur","ric","u","lum"],1,"/kəˈrɪkjələm/"],
+ ["pedagogy",["ped","a","go","gy"],0,"/ˈpedəɡɒdʒi/"],
+ ["certificate",["cer","tif","i","cate"],1,"/səˈtɪfɪkət/"],
+ ["comfortable",["com","fort","a","ble"],0,"/ˈkʌmftəbəl/"],
+ ["interesting",["in","ter","est","ing"],0,"/ˈɪntrəstɪŋ/"],
+ ["particular",["par","tic","u","lar"],1,"/pəˈtɪkjələ/"],
+ ["development",["de","vel","op","ment"],1,"/dɪˈveləpmənt/"]
+];
+
+/* Suffixes that move stress */
+const SUFFIX = [
+ ["-ion","educate /ˈedʒukeɪt/ → education /ˌedʒuˈkeɪʃən/","stress falls on the syllable before the suffix"],
+ ["-ic","photograph /ˈfəʊtəɡrɑːf/ → photographic /ˌfəʊtəˈɡræfɪk/","stress falls on the syllable before the suffix"],
+ ["-ity","able /ˈeɪbəl/ → ability /əˈbɪləti/","stress falls on the syllable before the suffix"],
+ ["-ical","economy /ɪˈkɒnəmi/ → economical /ˌiːkəˈnɒmɪkəl/","stress falls on the syllable before the suffix"],
+ ["-ography","photo /ˈfəʊtəʊ/ → photography /fəˈtɒɡrəfi/","stress falls on the first syllable of the suffix"],
+ ["-ment, -ness, -ly, -er","develop → development, happy → happiness","stress-neutral: the stem keeps its stress"]
+];
+
+/* Compound vs phrase */
+const COMPOUND = [
+ ["a ˈgreenhouse","/ə ˈɡriːnhaʊs/","compound noun: a building for plants — single primary stress on the first element"],
+ ["a ˌgreen ˈhouse","/ə ˌɡriːn ˈhaʊs/","adjective + noun phrase: a house that is green — main stress on the second element"],
+ ["a ˈblackbird","/ə ˈblækbɜːd/","compound noun: one species of bird"],
+ ["a ˌblack ˈbird","/ə ˌblæk ˈbɜːd/","phrase: any bird that is black"],
+ ["an ˈEnglish teacher","/ən ˈɪŋɡlɪʃ ˌtiːtʃə/","compound: a teacher of English"],
+ ["an ˌEnglish ˈteacher","/ən ˌɪŋɡlɪʃ ˈtiːtʃə/","phrase: a teacher who is English"],
+ ["a ˈdarkroom","/ə ˈdɑːkruːm/","compound: a room for developing photographs"],
+ ["a ˌdark ˈroom","/ə ˌdɑːk ˈruːm/","phrase: a room with no light"]
+];
+const STRESSSHIFT = [
+ ["thirteen","/ˌθɜːˈtiːn/ alone","/ˈθɜːtiːn ˈpeəpəl/ — but say ˈthirteen ˈpeople: the stress shifts left to avoid two beats in a row"],
+ ["Japanese","/ˌdʒæpəˈniːz/ alone","ˈJapanese ˈfood — stress shifts left"],
+ ["afternoon","/ˌɑːftəˈnuːn/ alone","ˈafternoon ˈtea — stress shifts left"],
+ ["academic","/ˌækəˈdemɪk/ alone","ˈacademic ˈwriting — stress shifts left"]
+];
+
+/* Weak forms: [word, weak, example, strongForm] */
+const WEAKFORMS = [
+ ["a","/ə/","a book /ə ˈbʊk/","/eɪ/"],
+ ["an","/ən/","an apple /ən ˈæpəl/","/æn/"],
+ ["the (before a consonant)","/ðə/","the book /ðə ˈbʊk/","/ðiː/"],
+ ["the (before a vowel)","/ði/","the answer /ði ˈɑːnsə/","/ðiː/"],
+ ["and","/ən/ or /n/","fish and chips /ˌfɪʃ ən ˈtʃɪps/","/ænd/"],
+ ["but","/bət/","small but useful /ˈsmɔːl bət ˈjuːsfəl/","/bʌt/"],
+ ["for","/fə/","for me /fə ˈmiː/","/fɔː/"],
+ ["from","/frəm/","from London /frəm ˈlʌndən/","/frɒm/"],
+ ["of","/əv/","a cup of tea /ə ˌkʌp əv ˈtiː/","/ɒv/"],
+ ["to","/tə/","to school /tə ˈskuːl/","/tuː/"],
+ ["at","/ət/","at home /ət ˈhəʊm/","/æt/"],
+ ["as","/əz/","as good as /əz ˈɡʊd əz/","/æz/"],
+ ["than","/ðən/","better than /ˈbetə ðən/","/ðæn/"],
+ ["that (conjunction)","/ðət/","I think that he knows /aɪ ˈθɪŋk ðət hi ˈnəʊz/","/ðæt/ as a demonstrative — that book never reduces"],
+ ["can","/kən/","I can swim /aɪ kən ˈswɪm/","/kæn/"],
+ ["could","/kəd/","I could go /aɪ kəd ˈɡəʊ/","/kʊd/"],
+ ["should","/ʃəd/","you should try /ju ʃəd ˈtraɪ/","/ʃʊd/"],
+ ["would","/wəd/","I would like /aɪ wəd ˈlaɪk/","/wʊd/"],
+ ["must","/məst/","you must go /ju məst ˈɡəʊ/","/mʌst/"],
+ ["was","/wəz/","she was here /ʃi wəz ˈhɪə/","/wɒz/"],
+ ["were","/wə/","they were late /ðeɪ wə ˈleɪt/","/wɜː/"],
+ ["are","/ə/","they are ready /ðeɪ ə ˈredi/","/ɑː/"],
+ ["have","/həv/ or /əv/","we have finished /wi həv ˈfɪnɪʃt/","/hæv/"],
+ ["has","/həz/ or /əz/","she has left /ʃi həz ˈleft/","/hæz/"],
+ ["had","/həd/ or /əd/","we had gone /wi həd ˈɡɒn/","/hæd/"],
+ ["do","/də/","what do you think /ˌwɒt də ju ˈθɪŋk/","/duː/"],
+ ["does","/dəz/","what does it mean /ˌwɒt dəz ɪt ˈmiːn/","/dʌz/"],
+ ["some","/səm/","some water /səm ˈwɔːtə/ — quantifier","/sʌm/ as a pronoun or in contrast"],
+ ["him","/ɪm/","tell him /ˈtel ɪm/","/hɪm/"],
+ ["her","/ə/ or /hə/","give her the book /ˈɡɪv ə ðə ˈbʊk/","/hɜː/"],
+ ["them","/ðəm/ or /əm/","give them to me /ˈɡɪv ðəm tə ˈmiː/","/ðem/"],
+ ["you","/ju/","you know /ju ˈnəʊ/","/juː/"],
+ ["there (existential)","/ðə/","there are three /ðər ə ˈθriː/","/ðeə/ as a place adverb"],
+ ["us","/əs/","let us try /ˈlet əs ˈtraɪ/","/ʌs/"]
+];
+
+/* Contexts where the weak form is blocked */
+const BLOCKED = [
+ ["Where are you ˈfrom?","/frɒm/","A function word at the end of a clause is stranded and takes its strong form."],
+ ["It's ˈfor him, not ˈfrom him.","/fɔː/ and /frɒm/","Contrastive focus puts the word in the nucleus, so the strong form is used."],
+ ["Yes, I ˈcan.","/kæn/","Stranded auxiliary in a short answer: strong form."],
+ ["What does the word 'of' mean?","/ɒv/","Citation form: the word is being talked about rather than used."],
+ ["I said ˈa book, not ˈthe book.","/eɪ/ and /ðiː/","Metalinguistic contrast forces the strong forms of the articles."],
+ ["I know what you ˈare.","/ɑː/","Clause-final auxiliary: strong form."]
+];
+
+/* Connected speech: [family, label, example, transcription, explanation] */
+const CONNECTED = [
+ ["Assimilation","regressive (anticipatory) assimilation of place","ten boys","/tem ˈbɔɪz/","The alveolar /n/ takes the bilabial place of the following /b/. Regressive because the influence runs backwards from the later sound."],
+ ["Assimilation","regressive assimilation of place","that pen","/ðæp ˈpen/","Alveolar /t/ becomes bilabial before /p/."],
+ ["Assimilation","regressive assimilation of place","good girl","/ɡʊɡ ˈɡɜːl/","Alveolar /d/ becomes velar before /ɡ/."],
+ ["Assimilation","progressive assimilation of voice","cats /s/ vs dogs /z/","/kæts/ · /dɒɡz/","The plural morpheme takes its voicing from the preceding sound. Progressive because the influence runs forwards."],
+ ["Assimilation","coalescent assimilation (yod-coalescence)","did you","/ˈdɪdʒu/","/d/ and /j/ fuse into a third sound, /dʒ/, which is neither of the originals."],
+ ["Assimilation","coalescent assimilation (yod-coalescence)","don't you","/ˈdəʊntʃu/","/t/ + /j/ fuse into /tʃ/."],
+ ["Assimilation","coalescent assimilation","miss you","/ˈmɪʃu/","/s/ + /j/ fuse into /ʃ/."],
+ ["Elision","elision of /t/","next day","/ˌneks ˈdeɪ/","The middle consonant of a three-consonant cluster is lost across the word boundary."],
+ ["Elision","elision of /d/","old man","/ˌəʊl ˈmæn/","Alveolar /d/ is lost between two consonants."],
+ ["Elision","elision of /t/","must be","/ˈmʌs bi/","Cluster simplification inside a common collocation."],
+ ["Elision","elision of /h/","tell him","/ˈtel ɪm/","/h/ disappears from unstressed pronouns and auxiliaries. It is kept utterance-initially."],
+ ["Elision","elision of /ə/ (compression)","camera","/ˈkæmrə/","An unstressed vowel between consonants is squeezed out at normal speed."],
+ ["Linking","linking /r/","far away","/ˌfɑːr əˈweɪ/","In a non-rhotic accent an orthographic r is pronounced when the next word begins with a vowel."],
+ ["Linking","intrusive /r/","law and order","/ˌlɔːr ən ˈɔːdə/","An /r/ appears where there is no r in the spelling, after /ɑː ɔː ə/ before a vowel."],
+ ["Linking","linking /j/","I agree","/aɪ jəˈɡriː/","A /j/ glide bridges a front closing vowel and a following vowel."],
+ ["Linking","linking /w/","go out","/ˌɡəʊ ˈwaʊt/","A /w/ glide bridges a back closing vowel and a following vowel."],
+ ["Linking","catenation (consonant to vowel)","pick it up","/ˌpɪk ɪt ˈʌp/","A final consonant attaches to the following vowel, so the boundary is heard in a different place."],
+ ["Juncture","gemination (long consonant across a boundary)","bad dog","/ˌbæd ˈdɒɡ/","Two identical consonants merge into one longer one rather than being released twice."],
+ ["Juncture","juncture contrast","a name vs an aim","/ə ˈneɪm/ · /ən ˈeɪm/","The phonemes are identical in sequence; only where the boundary is placed distinguishes them."],
+ ["Juncture","juncture contrast","ice cream vs I scream","/ˌaɪs ˈkriːm/ · /aɪ ˈskriːm/","Aspiration of /k/ and length of /aɪ/ signal where the word boundary falls."]
+];
+
+/* Phrases and sentences for transcription */
+const PHRASES = [
+ ["a cup of tea","/ə ˌkʌp əv ˈtiː/","weak a and of",["/ə ˈkʌp əv ˈtiː/"]],
+ ["at the end","/ət ði ˈend/","weak at; the before a vowel is /ði/",["/ət ðə ˈend/"]],
+ ["for a moment","/fər ə ˈməʊmənt/","linking /r/ before the vowel of a",["/fə ə ˈməʊmənt/"]],
+ ["I can see it","/aɪ kən ˈsiː ɪt/","weak can",[]],
+ ["she was at home","/ʃi wəz ət ˈhəʊm/","weak was and at",[]],
+ ["we could have gone","/wi kəd əv ˈɡɒn/","have reduces to /əv/, never to 'of'",[]],
+ ["better than before","/ˈbetə ðən bɪˈfɔː/","weak than; no final /r/",[]],
+ ["the answer is here","/ði ˌɑːnsər ɪz ˈhɪə/","linking /r/ between answer and is",[]],
+ ["did you see it","/ˌdɪdʒu ˈsiː ɪt/","yod-coalescence in did you",["/dɪd ju ˈsiː ɪt/"]],
+ ["next week","/ˌneks ˈwiːk/","elision of /t/",["/nekst ˈwiːk/"]],
+ ["first of all","/ˌfɜːst əv ˈɔːl/","weak of",[]],
+ ["as soon as possible","/əz ˌsuːn əz ˈpɒsəbəl/","weak as twice",[]],
+ ["from the beginning","/frəm ðə bɪˈɡɪnɪŋ/","weak from and the",[]],
+ ["you should have asked","/ju ʃəd əv ˈɑːskt/","weak should and have",[]],
+ ["they were ready","/ðeɪ wə ˈredi/","weak were",[]],
+ ["a lot of work","/ə ˌlɒt əv ˈwɜːk/","weak a and of",[]]
+];
+const SENTENCES = [
+ ["I can see the problem now.","/aɪ kən ˈsiː ðə ˈprɒbləm ˈnaʊ/","weak can and the",["/aɪ kən ˈsiː ðə ˌprɒbləm ˈnaʊ/"]],
+ ["She was waiting for a bus.","/ʃi wəz ˈweɪtɪŋ fər ə ˈbʌs/","weak was, for, a; linking /r/",[]],
+ ["The students are working in the library.","/ðə ˈstjuːdənts ə ˈwɜːkɪŋ ɪn ðə ˈlaɪbrəri/","weak the and are",[]],
+ ["I thought you were at home.","/aɪ ˈθɔːt ju wər ət ˈhəʊm/","linking /r/ between were and at",[]],
+ ["Could you open the door?","/kəd ju ˈəʊpən ðə ˈdɔː/","weak could; /kədʒu/ is also possible",["/kədʒu ˈəʊpən ðə ˈdɔː/"]],
+ ["They should have told us before.","/ðeɪ ʃəd əv ˈtəʊld əs bɪˈfɔː/","weak should, have, us",[]],
+ ["Can you give me an example?","/kən ju ˈɡɪv mi ən ɪɡˈzɑːmpəl/","weak can and an",[]],
+ ["We need to analyse the language carefully.","/wi ˈniːd tə ˈænəlaɪz ðə ˈlæŋɡwɪdʒ ˈkeəfəli/","weak to and the",[]],
+ ["I would like to record the lesson.","/aɪ wəd ˈlaɪk tə rɪˈkɔːd ðə ˈlesən/","record as a verb takes second-syllable stress",[]],
+ ["A learner may understand a word but mispronounce it.","/ə ˈlɜːnə meɪ ˌʌndəˈstænd ə ˈwɜːd bət ˌmɪsprəˈnaʊns ɪt/","weak a and but",[]]
+];
+
+/* Prominence and intonation */
+const INTON = [
+ ["tone unit","A stretch of speech with one intonation contour, built around one nucleus. Also called a tone group or intonation phrase.","| I ˈthink | it's ˈfine |"],
+ ["nucleus (tonic syllable)","The most prominent syllable in the tone unit — where the main pitch movement starts. By default it falls on the last lexical item.","I'm going to the SHOPS."],
+ ["head","The stretch from the first stressed syllable up to (but not including) the nucleus.","I ˈreally ˈdon't THINK so."],
+ ["tail","Any syllables after the nucleus. They carry no new pitch movement.","TELL him about it."],
+ ["fall","Signals finality and completeness. Default for statements, commands and wh-questions.","Where do you LIVE↘"],
+ ["rise","Common on yes/no questions and on encouraging or listing intonation.","Are you READY↗"],
+ ["fall-rise","Signals reservation, partial agreement or non-finality — the classic 'but…' tone.","The FOOD↘↗ was nice (implying: something else was not)"],
+ ["rise-fall","Signals strong feeling: surprise, being impressed, or sarcasm.","That's amAZing↗↘"],
+ ["contrastive stress","Moving the nucleus off its default position to mark contrast or correction.","I didn't say SHE took it (someone else did)"],
+ ["given and new","Information already in the discourse loses prominence; new information attracts the nucleus.","A: Who broke the window? B: TOM broke it."],
+ ["attitudinal function","Intonation conveys speaker attitude — the same words can sound interested or bored.","Fine↘ vs Fine↘↗"],
+ ["grammatical function","Intonation can distinguish structures, e.g. defining from non-defining relative clauses.","My brother | who lives in Delhi | is a teacher (non-defining, separate tone units)"],
+ ["stress timing","English is conventionally described as stress-timed: stressed syllables recur at roughly regular intervals and unstressed syllables are compressed between them.","The BOY is at the DOOR / The BOY has been at the DOOR"]
+];
+
+/* Learner phonology: [learner form, target, best diagnosis, distractors, comment] */
+const LEARNER = [
+ ["A learner says /sɪŋɡ/ for sing.","/sɪŋ/","An extra /ɡ/ is added after the velar nasal /ŋ/.",
+  ["/n/ is substituted for /ŋ/.","The final consonant is devoiced.","The vowel is lengthened."],
+  "Spelling-driven: the learner sees ng and produces both consonants. Compare singer /ˈsɪŋə/ with finger /ˈfɪŋɡə/."],
+ ["A learner says /ʃiːp/ when they mean ship.","/ʃɪp/","/iː/ is substituted for /ɪ/, so a minimal-pair contrast is lost.",
+  ["The /ʃ/ is substituted for /s/.","The final consonant is elided.","The word stress is misplaced."],
+  "Many L1s have a single high front vowel, so length is heard as the only difference. Teach the quality difference, not just length."],
+ ["A learner says /es'tʌdi/ for study.","/ˈstʌdi/","A prothetic vowel is inserted before the /st/ cluster.",
+  ["The /d/ is devoiced.","The /s/ is substituted for /ʃ/.","The final vowel is dropped."],
+  "Typical of Spanish and some other L1s where /sC/ onsets are not permitted."],
+ ["A learner says /bæt/ for bad.","/bæd/","The final lenis consonant is devoiced.",
+  ["The vowel is shortened only.","A consonant is inserted.","The stress is misplaced."],
+  "Final devoicing is typical of German, Russian, Polish and Turkish L1s. Note that in English the vowel length before the consonant also carries the contrast."],
+ ["A learner says /sɪn/ for thin.","/θɪn/","/s/ is substituted for the dental fricative /θ/.",
+  ["/θ/ is substituted for /s/.","The vowel is substituted.","A consonant is elided."],
+  "Common where /θ/ is absent from the L1. Distinguish this from th-fronting ([f]) and from dental-plosive substitution ([t̪])."],
+ ["A learner says [ʋaɪn] for both wine and vine.","/waɪn/ and /vaɪn/","/v/ and /w/ are merged into a single labiodental approximant.",
+  ["/v/ is devoiced to /f/.","/w/ is deleted.","The diphthong is monophthongised."],
+  "Very common in Indian English. The functional load is low, so it rarely blocks communication, which matters when prioritising."],
+ ["A learner produces /eː/ and /oː/ for face and goat.","/feɪs/ and /ɡəʊt/","The closing diphthongs are monophthongised.",
+  ["The vowels are shortened.","The consonants are devoiced.","A vowel is inserted."],
+  "Standard in Indian, Scottish and northern English speech. Fully intelligible internationally — a candidate for tolerating rather than correcting."],
+ ["A learner reads every word in its strong form: /aɪ kæn ˈsiː ðiː ˈprɒbləm/.","/aɪ kən ˈsiː ðə ˈprɒbləm/","Weak forms are not used, so the rhythm is syllable-timed rather than stress-timed.",
+  ["The word stress is wrong.","The vowels are too long.","The consonants are aspirated."],
+  "This affects the learner's listening more than their intelligibility: if they do not expect /kən/, they will not hear it."],
+ ["A learner says /ˈdɪfɪkʌlt/ for difficult.","/ˈdɪfɪkəlt/","A full vowel is used where the model has schwa in an unstressed syllable.",
+  ["The stress is on the wrong syllable.","A consonant is inserted.","The first vowel is wrong."],
+  "Spelling-driven vowel restoration. Schwa is the fix, and it generalises across thousands of words."],
+ ["A learner says /ˈkʌmfɔːtəbəl/ for comfortable.","/ˈkʌmftəbəl/","The unstressed syllable is not compressed and a full vowel replaces the reduction.",
+  ["The primary stress is misplaced.","The /f/ is devoiced.","The final /l/ is dark."],
+  "Frequent, high-value item because the word is common and the mismatch with spelling is large."],
+ ["A learner says /ˈriːkɔːd/ for the verb record.","/rɪˈkɔːd/","Primary stress is placed on the first syllable, which is the noun pattern.",
+  ["The vowel quality is wrong only.","A consonant is elided.","The word is said too slowly."],
+  "Word-class stress pairs. The unstressed syllable also needs to weaken to /rɪ/."],
+ ["A learner says /pɪn/ with no aspiration, and listeners hear bin.","[pʰɪn] for pin","The fortis plosive is unaspirated, so the fortis/lenis contrast is lost initially.",
+  ["The vowel is too short.","The /n/ is nasalised.","The stress is wrong."],
+  "This is an allophonic detail with real functional consequences — a good example for a DELTA answer about allophones mattering to intelligibility."],
+ ["A learner says /fɪl/ for both fill and feel.","/fɪl/ and /fiːl/","The /ɪ/–/iː/ contrast is neutralised before dark /l/.",
+  ["The /f/ is substituted.","The /l/ is deleted.","The syllable is stressed wrongly."],
+  "Dark /l/ makes the preceding vowel harder to perceive, so this environment is worth isolating in practice."],
+ ["A learner says /ˈɪŋɡlɪʃ/ as /ˈɪnɡlɪʃ/.","/ˈɪŋɡlɪʃ/","The velar nasal /ŋ/ is replaced by the alveolar nasal /n/.",
+  ["An extra /ɡ/ is added.","The vowel is lengthened.","The stress moves."],
+  "The reverse of the sing error above; both come from treating ng as two letters rather than as a spelling for one or two phonemes."]
+];
+
+/* Terminology for Task 1-style definitions */
+const TERMS = [
+ ["phoneme","The smallest unit of sound that can change meaning in a language.","/p/ and /b/ in pin and bin.","contrastive / meaning-distinguishing","smallest unit","example minimal pair"],
+ ["allophone","A predictable variant of a phoneme that does not change meaning; which variant occurs depends on the phonetic environment.","Aspirated [pʰ] in pin and unaspirated [p] in spin are allophones of /p/.","variant of one phoneme","non-contrastive / environment-determined","example"],
+ ["minimal pair","Two words differing in one phoneme only, in the same position, with different meanings.","ship /ʃɪp/ and sheep /ʃiːp/.","one sound different","same position","different meaning"],
+ ["schwa","The weak, unstressed central vowel /ə/, the most frequent vowel in English.","the first vowel in about /əˈbaʊt/.","central and unstressed","symbol /ə/","example"],
+ ["weak form","The reduced pronunciation of a function word when it is unstressed, usually with schwa.","can /kən/ in I can swim.","function word","unstressed and reduced","example"],
+ ["elision","The omission of a sound that would be present in careful citation form.","the /t/ in next day /ˌneks ˈdeɪ/.","a sound is left out","connected speech","example"],
+ ["assimilation","A sound changing to become more like a neighbouring sound.","/n/ becoming /m/ in ten boys /tem ˈbɔɪz/.","sound becomes more like a neighbour","direction or feature affected","example"],
+ ["coalescence","Two adjacent sounds fusing into a third sound that is different from both.","/d/ + /j/ becoming /dʒ/ in did you /ˈdɪdʒu/.","two sounds fuse","result is a new third sound","example"],
+ ["intrusive /r/","An /r/ inserted between two vowels across a word boundary where there is no r in the spelling.","law and order /ˌlɔːr ən ˈɔːdə/.","no r in spelling","between vowels","example"],
+ ["syllabic consonant","A consonant, usually /n/ or /l/, that forms the nucleus of a syllable with no vowel.","the second syllable of button [ˈbʌtn̩].","consonant acts as nucleus","no vowel in the syllable","example"],
+ ["diphthong","A vowel in which the tongue glides from one quality towards another within a single syllable.","/eɪ/ in face /feɪs/.","glide between two qualities","one syllable","example"],
+ ["consonant cluster","Two or more consonants together in the same syllable, with no vowel between them.","/spr/ in spring /sprɪŋ/.","two or more consonants","same syllable, no vowel between","example"],
+ ["nucleus (tonic syllable)","The most prominent syllable in a tone unit, where the main pitch movement begins.","SHOPS in I'm going to the shops.","most prominent syllable","carries the main pitch movement","example"],
+ ["tone unit","A stretch of speech organised around a single nucleus and one intonation contour.","I think | it's fine — two tone units.","one nucleus","one contour","example"],
+ ["fortis and lenis","Labels for the two consonant series in English, based on articulatory strength rather than voicing, because so-called voiced consonants are often only partly voiced.","/p/ is fortis, /b/ is lenis.","strength not just voicing","the pairing is systematic","example"],
+ ["pre-fortis clipping","The shortening of a vowel before a fortis consonant in the same syllable.","the vowel of beat is shorter than that of bead.","vowel shortened","before a fortis consonant","example"],
+ ["stress shift","The movement of primary stress leftwards in a word when a following stressed syllable would otherwise clash with it.","thirteen /ˌθɜːˈtiːn/ but ˈthirteen ˈpeople.","stress moves left","to avoid a clash of beats","example"],
+ ["stress timing","The description of English rhythm in which stressed syllables tend to recur at roughly equal intervals, with unstressed syllables compressed between them.","The BOY is at the DOOR takes about as long as The BOY has been at the DOOR.","stressed beats roughly regular","unstressed syllables compressed","example"]
+];
+
+
+/* ---- Paper 1 mark map (task weightings) ---- */
+const EXAMMAP = [
+ ["Task 1","Labelling: six definitions, you supply the term","6","~5 min"],
+ ["Task 2","Define and exemplify four terms","12","~10 min"],
+ ["Task 3","Abilities learners need for a task, with examples","12","~10 min"],
+ ["Task 4","Learner text: four strengths/weaknesses, one example each","20","~20 min"],
+ ["Task 5","Authentic text: genre (5) + form, meaning, use, phonology, learner problems (45)","50","~45 min"]
+];
+
+/* ---- Extra terms, added so Task 1 recall has enough range ---- */
+const TERMS2 = [
+ ["catenation","The linking of a word-final consonant to a following word-initial vowel, so that the consonant is heard as the onset of the next syllable. Also called liaison or linking.","pick it up /ˌpɪk ɪt ˈʌp/, where /k/ and /t/ each link forward to the following vowel.","linking across a word boundary","consonant to vowel","example"],
+ ["glottalisation","The replacement or reinforcement of a plosive, usually /t/, by a glottal stop.","football [ˈfʊʔbɔːl].","glottal stop replaces or reinforces","usually /t/, before a consonant or finally","example"],
+ ["aspiration","The brief puff of air released after a fortis plosive at the beginning of a stressed syllable.","pin [pʰɪn] but spin [spɪn].","puff of air after the plosive","fortis plosives, stressed syllable onset","example"],
+ ["contracted form","A reduced form in which two words combine and sounds are lost, shown in writing by an apostrophe.","there is → there's /ðəz/.","two words combine","sounds are lost","example"],
+ ["sentence stress (prominence)","The pattern of stressed syllables across an utterance: content words are normally prominent and function words normally weak.","I'd LIKE a CUP of TEA — three prominences, the rest reduced.","content words prominent","function words weak","example"],
+ ["non-rhotic accent","An accent in which /r/ is pronounced only when a vowel follows, so it is not pronounced in a syllable coda.","car /kɑː/ but car alarm /ˌkɑːr əˈlɑːm/.","/r/ only before a vowel","not pronounced in the coda","example"],
+ ["homophone","Two or more words with the same pronunciation but different spelling and meaning.","their, there and they're, all /ðeə/.","same pronunciation","different spelling and meaning","example"],
+ ["dark /l/","The velarised allophone of /l/ used before a consonant or at the end of a syllable.","feel [fiːɫ] compared with leaf [liːf].","velarised allophone of /l/","before a consonant or syllable-finally","example"]
+];
+
+/* Accepted alternative wordings when you type the term in Task 1 mode */
+const TERM_ALTS = {
+ "nucleus (tonic syllable)":["nucleus","tonic syllable","tonic","nuclear syllable"],
+ "fortis and lenis":["fortis/lenis","fortis lenis","fortis and lenis consonants"],
+ "intrusive /r/":["intrusive r","intrusive /r/ "],
+ "sentence stress (prominence)":["sentence stress","prominence"],
+ "dark /l/":["dark l","velarised l","dark ell"],
+ "schwa":["schwa /ə/","the schwa"],
+ "catenation":["liaison","linking","consonant to vowel linking"],
+ "weak form":["weak forms"],
+ "minimal pair":["minimal pairs"],
+ "syllabic consonant":["syllabic consonants"],
+ "consonant cluster":["consonant clusters","cluster"],
+ "stress timing":["stress-timed rhythm","stress timed","stress-timing"],
+ "pre-fortis clipping":["prefortis clipping","clipping"],
+ "stress shift":["stress-shift","iambic reversal"],
+ "coalescence":["coalescent assimilation","yod coalescence","yod-coalescence"],
+ "contracted form":["contraction","contracted forms"],
+ "non-rhotic accent":["non-rhotic","non rhotic accent","nonrhotic"]
+};
+
+/* ---- Task 5 style phonology commentary. Each model point is worth one mark. ---- */
+const T5 = [
+ { id:"t5-ation",
+   text:"…this contact led to much lexical borrowing and grammatical SIMPLIFICATION… Significant PRONUNCIATION changes in this period included the Great Vowel Shift… the language was exported through British COLONISATION.",
+   item:"simplification · pronunciation · colonisation",
+   q:"What phonological features do these three highlighted words share?",
+   points:[
+    "All three are nouns formed from verbs with the suffix -ation (simplify, pronounce, colonise).",
+    "Primary stress falls on the penultimate syllable, immediately before -tion: /ˌsɪmplɪfɪˈkeɪʃən/, /prəˌnʌnsiˈeɪʃən/, /ˌkɒlənaɪˈzeɪʃən/.",
+    "The stress has shifted from the verb: /ˈsɪmplɪfaɪ/ has first-syllable stress, the noun has fourth-syllable stress.",
+    "A secondary stress /ˌ/ is left on or near the syllable that carried primary stress in the verb.",
+    "Vowels in the newly unstressed syllables reduce to /ə/ or /ɪ/.",
+    "The suffix itself is /-ʃən/ and the final syllable may be realised with a syllabic [n̩].",
+    "This is a regular, teachable rule: nouns in -ion take primary stress on the syllable before the suffix.",
+    "Learner problem: keeping the verb's stress pattern, or restoring full vowels in the unstressed syllables from the spelling."
+   ],
+   note:"This is the single most common phonology question shape in Task 5: a set of highlighted words that share one systematic feature. Find the pattern first, then transcribe."
+ },
+ { id:"t5-doyou",
+   text:"Interviewer: So, DO YOU ENJOY COOKING at home?",
+   item:"do you enjoy cooking",
+   q:"Identify and exemplify the phonological features of this question.",
+   points:[
+    "Weak forms: do /də/ or /du/ and you /ju/, both unstressed.",
+    "A linking /w/ (some sources call it intrusive /w/) can bridge do and you: /ˌduː wju/.",
+    "/d/ and /j/ may coalesce, giving /dʒu/ — this is coalescent assimilation, not elision.",
+    "cooking ends in /ŋ/ with no /ɡ/ after it, so there is no final /ɡ/ available to assimilate or elide.",
+    "/ŋ/ may be realised as /n/ in casual speech: /ˈkʊkɪn/.",
+    "The nucleus falls by default on cooking, the last lexical item.",
+    "A rising tone is typical of this yes/no question; a fall would sound abrupt.",
+    "Full transcription: /dʒu ɪnˈdʒɔɪ ˈkʊkɪŋ/.",
+    "Learner problem: bottom-up decoding — /dʒu/ does not resemble the written form do you, so the question is misheard."
+   ],
+   note:"The June 2012 examiner report singles this out: candidates called do you elision when it is assimilation, and claimed a final /ɡ/ in cooking that does not exist."
+ },
+ { id:"t5-isnt",
+   text:"Speaker: It's a good idea, ISN'T IT? I mean, it ISN'T THAT expensive.",
+   item:"isn't it · isn't that",
+   q:"Explain the connected-speech features and transcribe what is actually said.",
+   points:[
+    "isn't is a contracted form of is not, in which the vowel of not is already lost: /ˈɪzənt/, or with a syllabic nasal [ˈɪzn̩t].",
+    "isn't it: the final /t/ links forward to the vowel of it — catenation — giving /ˌɪzn̩ ˈtɪt/ or /ˈɪzənt ɪt/.",
+    "isn't that: /t/ is elided in the cluster /nt/ + /ð/, giving /ˈɪzən ðæt/.",
+    "The elision must be shown in the script: transcribe the resulting form, do not just name the process.",
+    "it is normally weak /ɪt/ and unstressed.",
+    "Learner problem: restoring /t/ from the spelling, producing an over-careful rhythm.",
+    "Learner problem: not recognising the contraction when listening, and hearing is not."
+   ],
+   note:"The examiner report criticises candidates who named the elision of /t/ in isn't but never showed the elided form in phonemic script."
+ },
+ { id:"t5-there",
+   text:"Learner recording: THERE IS a table and THERE ARE two chairs next to the window.",
+   item:"there is · there are",
+   q:"Comment on the phonology of these two items and the learner problem they reveal.",
+   points:[
+    "In natural speech these contract: there's /ðəz/ and there're /ðərə/ or simply there's for both in very casual speech.",
+    "there in existential use has a weak form /ðə/, unlike the place adverb there /ðeə/.",
+    "there are shows linking /r/ before the vowel of are: /ðər ə/.",
+    "are itself has the weak form /ə/.",
+    "The learner has used full forms throughout, producing equal stress on every word.",
+    "This gives a syllable-timed rather than stress-timed rhythm.",
+    "Learner problem: the rhythm marks the learner out and, more importantly, makes it hard to decode contracted forms when listening.",
+    "Priority: high, because it transfers across the whole language rather than affecting single items."
+   ],
+   note:"Taken from the pattern of learner weaknesses listed in the June 2014 examiner report: no contracted forms, especially with there's and there're."
+ },
+ { id:"t5-compound",
+   text:"…fitted with double glazing and a new GREENHOUSE at the end of a long GREEN HOUSE-plant border.",
+   item:"greenhouse · green house",
+   q:"Explain the phonological difference and what it signals.",
+   points:[
+    "greenhouse is a compound noun with a single primary stress on the first element: /ə ˈɡriːnhaʊs/.",
+    "green house is an adjective plus noun phrase with main stress on the second element: /ə ˌɡriːn ˈhaʊs/.",
+    "Stress placement alone carries the difference in meaning; the segments are identical.",
+    "In the compound, the second element reduces and may lose its full vowel.",
+    "This is a minimal pair at the level of stress rather than of phonemes.",
+    "Learner problem: level stress on both words, which neutralises the distinction.",
+    "Learner problem: learners cannot use the cue receptively either, so ambiguity is not resolved."
+   ],
+   note:"Compound versus phrase stress is a reliable Task 5 item because it links form, meaning and phonology in one point."
+ },
+ { id:"t5-recordpair",
+   text:"The council keeps a RECORD of every complaint and will RECORD the meeting.",
+   item:"record (noun) · record (verb)",
+   q:"Analyse the phonology of the two highlighted items.",
+   points:[
+    "The noun takes first-syllable stress: /ˈrekɔːd/.",
+    "The verb takes second-syllable stress: /rɪˈkɔːd/.",
+    "The unstressed syllable changes quality with the stress: /re/ becomes /rɪ/.",
+    "Stress placement is the only phonological signal of word class here.",
+    "This pattern is regular across a set of two-syllable noun/verb pairs (present, object, permit, produce, import).",
+    "Learner problem: using one stress pattern for both, usually the spelling-driven first syllable.",
+    "Learner problem: failing to weaken the unstressed syllable, so the contrast is lost even when the stress is right."
+   ],
+   note:"Say what the stress does, not just where it is. The mark is for the link between stress and word class."
+ },
+ { id:"t5-contrast",
+   text:"A: Did Sam take the car?   B: I didn't say SAM took it.",
+   item:"the placement of the main stress in B's reply",
+   q:"Comment on the prominence and what it conveys.",
+   points:[
+    "The nucleus, or tonic syllable, has been moved off its default position on the last lexical item.",
+    "Default tonicity would put the nucleus on took or it; here it is on Sam.",
+    "This is contrastive stress: it denies that the person named was Sam while leaving the event unchallenged.",
+    "Moving the nucleus to any other word changes the implication, so tonicity is meaningful, not decorative.",
+    "Syllables after the nucleus form the tail and carry no further pitch movement.",
+    "A fall-rise here would add reservation, implying an unspoken but.",
+    "Learner problem: fixed final stress placement, so contrast has to be carried lexically instead.",
+    "Only discuss the tone itself if the rubric asks about intonation."
+   ],
+   note:"The June 2012 report warns that intonation comments earn nothing unless the rubric asks for them. Prominence, however, is part of ordinary phonological analysis."
+ },
+ { id:"t5-weakchain",
+   text:"…and I would have told you about it, but there wasn't time.",
+   item:"would have · but there wasn't",
+   q:"Identify the phonological features of this stretch of connected speech.",
+   points:[
+    "would has the weak form /wəd/ when unstressed.",
+    "have reduces to /əv/, and can weaken further to /ə/: I would have → /aɪ wədəv/ or /aɪ wədə/.",
+    "This is the source of the written error would of, which is a spelling of the reduced pronunciation.",
+    "but has the weak form /bət/.",
+    "there in existential use is weak /ðə/.",
+    "wasn't may lose its /t/ before the following consonant: /ˈwɒzən ˈtaɪm/ or with catenation /ˈwɒzn̩ taɪm/.",
+    "Only the content words told, about and time carry prominence.",
+    "Learner problem: this stretch contains almost no full vowels, so it is very hard to decode at speed."
+   ],
+   note:"Chains of weak forms are worth more marks than single items because you can name several distinct processes in one breath."
+ }
+];
+
+/* ---- Documented examiner traps ---- */
+const TRAPS = [
+ ["A candidate writes that in do you the /d/ is elided. What is wrong?",
+  "It is assimilation, not elision — /d/ and /j/ coalesce into /dʒ/.",
+  ["Nothing, the analysis is correct.","It is catenation, not elision.","The /d/ is aspirated, not elided."],
+  "Named in the June 2012 examiner report as a specific inaccuracy. Elision means a sound is lost; here a new sound appears."],
+ ["A candidate writes that the final /ɡ/ of cooking assimilates to the next word. What is wrong?",
+  "cooking ends in /ŋ/ and has no final /ɡ/, so there is nothing to assimilate.",
+  ["Nothing, the analysis is correct.","/ɡ/ is elided rather than assimilated.","The /ŋ/ is a cluster of /n/ and /ɡ/ in all accents."],
+  "Also named in the June 2012 report. Compare singer /ˈsɪŋə/ with finger /ˈfɪŋɡə/: the /ɡ/ is present only in the second."],
+ ["A candidate writes that in this phrase the words glide together. Why does this score nothing?",
+  "It is a lay description; the examiner needs the term — elision, linking, catenation or assimilation.",
+  ["It is too short.","It is correct but belongs in Task 4.","Glide is only used of /j/ and /w/."],
+  "The report lists lay descriptions as a common cause of lost marks in the phonology sections."],
+ ["A candidate uses the term ellipsis for a missing sound. What is wrong?",
+  "Ellipsis is a grammatical or discourse term; the phonological term is elision.",
+  ["Nothing, the two are interchangeable.","Ellipsis applies only in writing.","The correct term is assimilation."],
+  "Cited verbatim in the June 2012 report as a wrong-term error."],
+ ["Which spelling would gain the mark?","liaison",
+  ["liason","liasion","liaision"],
+  "The report lists *liason, *ellison and *glotalisation as misspellings that cost marks. Spelling of terminology is assessed."],
+ ["Which spelling would gain the mark?","glottalisation",
+  ["glotalisation","glottalization is wrong in British spelling","glottalisaton"],
+  "Two t's and two l's… in fact glottal has two t's: glot-tal-i-sa-tion. Either -isation or -ization is acceptable; *glotalisation is not."],
+ ["A candidate names the elision of /t/ in isn't but writes no transcription. Why is no mark given?",
+  "Without phonemic script the examiner cannot tell whether the candidate understands the term.",
+  ["The mark is given anyway if the term is right.","Transcription is only needed in Task 2.","The candidate should have used square brackets."],
+  "Stated directly in the June 2012 report. Always transcribe the resulting form, with the elided sound shown as omitted."],
+ ["The rubric asks about stress and connected speech. A candidate also discusses tone movements. What happens?",
+  "The intonation comments earn nothing, because the rubric did not ask for them.",
+  ["They earn bonus marks for range.","They are marked if accurate.","They replace a weaker point."],
+  "The report notes that if intonation is required, the rubric says so explicitly."],
+ ["In Task 2 a candidate gives two examples for one term, the first wrong and the second right. What is credited?",
+  "Nothing — only the first example is marked.",
+  ["The better of the two.","Both, at half a mark each.","The second, because it is correct."],
+  "Examiners mark the first example only. The same applies to giving two possible terms in Task 1: one wrong answer cancels the mark."],
+ ["Which is the safest structure for a Task 2 answer on a phonological term?",
+  "Two distinct defining points, then exactly one example in phonemic script.",
+  ["A long paragraph covering every related term.","One defining point and three examples.","An example only, since it demonstrates the definition."],
+  "Task 2 is worth 12 marks over four items: the definition carries two creditable points and the example one."],
+ ["When defining a consonant phoneme in Task 2, what must the definition contain?",
+  "Voicing, place of articulation and manner of articulation.",
+  ["The lexical set it belongs to.","Its frequency in English.","Its spelling patterns."],
+  "The June 2015 report says candidates need training to give the place and manner of articulation when defining phonological terms."],
+ ["When defining a vowel phoneme, which parameter do candidates most often leave out?",
+  "Lip rounding.",
+  ["Tongue height.","Whether it is long or short.","Which lexical set it belongs to."],
+  "Height, backness, rounding and length: rounding is the one usually missing, and it is a creditable point."]
+];
+
+/* ---- Annotation conventions and prioritisation criteria ---- */
+const ANNOTATE = [
+ ["Show elision","Strike through the sound that is lost, and transcribe the result.","next day → /neks(t) ˈdeɪ/ or /ˌneks ˈdeɪ/"],
+ ["Show linking","Draw a linking curve between the linked sounds.","far away → /ˌfɑːr‿əˈweɪ/"],
+ ["Show sentence stress","Box or circle the prominent syllables, or mark them with ˈ.","I'd ˈlike a ˈcup of ˈtea"],
+ ["Show assimilation","Transcribe the changed sound, not the citation form.","ten boys → /tem ˈbɔɪz/, not /ten ˈbɔɪz/"],
+ ["Use the right brackets","Slashes for phonemic, square brackets for phonetic detail.","/t/ but [ʔ] and [pʰ]"],
+ ["Always transcribe","Name the process and show it. A term with no script earns nothing.","glottalisation in football [ˈfʊʔbɔːl]"]
+];
+const PRIORITY = [
+ "the learner's level",
+ "the learner's exam or future study needs",
+ "the learner's job needs",
+ "the risk of fossilisation",
+ "transfer to other genres",
+ "transfer to other skills",
+ "relevance to the learner's specific context",
+ "impact on the communicative purpose of the task",
+ "the effect on the listener or reader",
+ "how easily it can be put right, and therefore how motivating it is"
+];
+
+/* ============================================================
+   4. MODULES + ITEM GENERATION
+   Every item gets a stable id so spaced repetition actually works.
+   ============================================================ */
+function shuffle(a){ const x = a.slice(); for (let i = x.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); const t = x[i]; x[i] = x[j]; x[j] = t; } return x; }
+function uniq(a){ const seen = {}, out = []; a.forEach(v => { if (!seen[v]){ seen[v] = 1; out.push(v); } }); return out; }
+
+/* Build an MCQ, guaranteeing exactly one correct option and no duplicates. */
+function mcq(id, prompt, answer, pool, feedback, opts){
+  opts = opts || {};
+  const distractors = uniq(shuffle(pool).filter(x => x && x !== answer)).slice(0, 3);
+  const choices = shuffle([answer].concat(distractors));
+  return { id, type: "mcq", prompt, stem: opts.stem || "", answer, choices, feedback, audio: opts.audio || "" };
+}
+function typeIn(id, prompt, model, feedback, opts){
+  opts = opts || {};
+  return { id, type: "type", prompt, stem: opts.stem || "", model, variants: opts.variants || [],
+           feedback, audio: opts.audio || "", hint: opts.hint || "" };
+}
+function tapStress(id, word, syls, correct, ipa){
+  return { id, type: "stress", prompt: "Tap the syllable with primary stress in “" + word + "”.",
+           syls, answer: correct, model: syls[correct] + " (" + ipa + ")",
+           feedback: word + " " + ipa + " — primary stress on syllable " + (correct + 1) + ".", audio: word };
+}
+function defineTerm(id, term, model, example, checks){
+  return { id, type: "define", prompt: "Define “" + term + "” and give one example.", term, model, example, checks };
+}
+const ALLTERMS = TERMS.concat(TERMS2);
+function nameTerm(id, definition, term, alts, example){
+  return { id, type: "term", prompt: "Give the term for this definition.", stem: definition,
+           model: term, alts: alts || [], example };
+}
+function analysisItem(t){
+  return { id: t.id, type: "analysis", prompt: t.q, stem: t.text, item: t.item,
+           points: t.points, note: t.note, model: t.item };
+}
+/* letter-level distance, used to separate a wrong term from a misspelt one */
+function wordDistance(a, b){
+  a = String(a).toLowerCase().replace(/[^a-z]/g, "");
+  b = String(b).toLowerCase().replace(/[^a-z]/g, "");
+  const n = a.length, m = b.length, d = [];
+  for (let i = 0; i <= n; i++){ d.push(new Array(m + 1).fill(0)); d[i][0] = i; }
+  for (let j = 0; j <= m; j++) d[0][j] = j;
+  for (let i = 1; i <= n; i++)
+    for (let j = 1; j <= m; j++)
+      d[i][j] = Math.min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+  return d[n][m];
+}
+function checkTerm(input, model, alts){
+  const cands = [model].concat(alts || []);
+  const norm = x => String(x).toLowerCase().replace(/[^a-z ]/g, "").replace(/\s+/g, " ").trim();
+  const u = norm(input);
+  for (let i = 0; i < cands.length; i++) if (norm(cands[i]) === u) return { verdict: "exact", score: 1 };
+  let best = 99;
+  cands.forEach(c => { best = Math.min(best, wordDistance(u, c)); });
+  if (best <= 2) return { verdict: "spelling", score: 0.5, dist: best };
+  return { verdict: "wrong", score: 0 };
+}
+
+const MODULES = [
+{ id:"cons", n:1, title:"Consonant inventory", sub:"24 phonemes + allophones",
+  aim:"Name any English consonant by voicing, place and manner, and give an example.",
+  teach:[
+   "The 24 consonants are described on three parameters: voicing (or fortis/lenis), place of articulation, and manner of articulation. A DELTA answer normally gives all three in that order.",
+   "Fortis and lenis are the more accurate labels, because English lenis consonants are only fully voiced between other voiced sounds.",
+   "/tʃ/ and /dʒ/ are single phonemes written with two symbols. /ŋ/ never begins a word."
+  ],
+  build(){
+    const items = [];
+    CONS.forEach((c, k) => {
+      const label = c[3] + " " + c[4] + " " + c[5];
+      items.push(mcq("cons-sym-" + k, "Which symbol represents the first consonant in “" + c[1] + "”?", "/" + c[0] + "/",
+        CONS.map(y => "/" + y[0] + "/"), c[1] + " " + c[2] + " begins with /" + c[0] + "/, a " + label + ".", { audio: c[1] }));
+      items.push(mcq("cons-vpm-" + k, "How is /" + c[0] + "/ described?", label,
+        CONS.map(y => y[3] + " " + y[4] + " " + y[5]), "/" + c[0] + "/ is a " + label + ". " + c[6], { audio: c[1] }));
+      items.push(mcq("cons-place-" + k, "What is the place of articulation of /" + c[0] + "/?", c[4],
+        CONS.map(y => y[4]), "/" + c[0] + "/ is " + c[4] + ". " + c[6]));
+    });
+    return items;
+  },
+  cards(){ return CONS.map(c =>
+    card("/" + c[0] + "/", "<b>" + c[1] + "</b> " + c[2], c[3] + " · " + c[4] + " · " + c[5], c[6], c[1])); }
+},
+
+{ id:"mono", n:2, title:"Monophthongs and schwa", sub:"12 simple vowels + weak /i u/",
+  aim:"Describe each simple vowel by height, backness, rounding and length, and place it in its lexical set.",
+  teach:[
+   "Vowels are described on four parameters: tongue height, tongue backness, lip rounding, and length. Most course materials omit rounding — do not, because it is exactly the kind of detail an examiner is checking for.",
+   "The accent modelled here is non-rhotic, so /r/ is written only where a vowel follows. car is /kɑː/, never /kɑːr/.",
+   "Two extra weak vowels, /i/ and /u/, appear in transcriptions but are not part of the 12. They are neutralised between /ɪ~iː/ and /ʊ~uː/ and occur only in unstressed positions."
+  ],
+  build(){
+    const items = [];
+    MONO.forEach((v, k) => {
+      const desc = v[4] + " " + v[5] + " " + v[6] + " " + v[7];
+      items.push(mcq("mono-sym-" + k, "Which vowel does “" + v[1] + "” " + v[2] + " contain?", "/" + v[0] + "/",
+        MONO.map(y => "/" + y[0] + "/"), v[1] + " contains /" + v[0] + "/: " + desc + ". Lexical set " + v[3] + ".", { audio: v[1] }));
+      items.push(mcq("mono-round-" + k, "Is /" + v[0] + "/ rounded or unrounded?", v[7],
+        ["rounded", "unrounded", "weakly rounded"], "/" + v[0] + "/ is " + v[7] + ". Full description: " + desc + "."));
+      items.push(mcq("mono-set-" + k, "Which lexical set does /" + v[0] + "/ belong to?", v[3],
+        MONO.map(y => y[3]), "/" + v[0] + "/ = " + v[3] + " (" + v[1] + "). " + v[8]));
+      items.push(typeIn("mono-type-" + k, "Type the vowel symbol in “" + v[1] + "”.", "/" + v[0] + "/",
+        "/" + v[0] + "/ — " + desc + ". " + v[8], { audio: v[1] }));
+    });
+    WEAKV.forEach((v, k) => {
+      items.push(mcq("weakv-" + k, "What is /" + v[0] + "/ in “" + v[1] + "” " + v[2] + "?",
+        "a neutralised weak vowel used only in unstressed positions",
+        ["a long vowel", "a centring diphthong", "a syllabic consonant"], v[3]));
+    });
+    return items;
+  },
+  cards(){
+    return MONO.map(v => card("/" + v[0] + "/", "<b>" + v[1] + "</b> " + v[2],
+      v[3] + " · " + v[4] + " · " + v[5] + " · " + v[6] + " · " + v[7], v[8], v[1]))
+      .concat(WEAKV.map(v => card("/" + v[0] + "/", "<b>" + v[1] + "</b> " + v[2], "weak neutralised vowel", v[3], v[1])));
+  }
+},
+
+{ id:"diph", n:3, title:"Diphthongs", sub:"8 gliding vowels",
+  aim:"Identify closing and centring diphthongs and describe how each glide moves.",
+  teach:[
+   "Closing diphthongs (/eɪ aɪ ɔɪ əʊ aʊ/) glide towards a closer position. Centring diphthongs (/ɪə eə ʊə/) glide towards schwa.",
+   "The centring diphthongs exist only because the accent is non-rhotic: they are what happened to the vowel plus /r/ sequences.",
+   "Modern GB has largely monophthongised /eə/ to [ɛː] and merged /ʊə/ with /ɔː/. The eight-diphthong model is kept here for consistency; say so if you use it in an exam answer."
+  ],
+  build(){
+    const items = [];
+    DIPH.forEach((d, k) => {
+      items.push(mcq("diph-sym-" + k, "Which diphthong does “" + d[1] + "” contain?", "/" + d[0] + "/",
+        DIPH.map(y => "/" + y[0] + "/"), d[1] + " " + d[2] + " contains /" + d[0] + "/, a " + d[4] + " diphthong (" + d[3] + ").", { audio: d[1] }));
+      items.push(mcq("diph-type-" + k, "Is /" + d[0] + "/ a closing or a centring diphthong?", d[4],
+        ["closing", "centring"], "/" + d[0] + "/ is " + d[4] + ". " + d[5]));
+      items.push(typeIn("diph-write-" + k, "Transcribe “" + d[1] + "” in full.", d[2],
+        d[1] + " → " + d[2] + ". " + d[5], { audio: d[1] }));
+    });
+    return items;
+  },
+  cards(){ return DIPH.map(d => card("/" + d[0] + "/", "<b>" + d[1] + "</b> " + d[2], d[3] + " · " + d[4], d[5], d[1])); }
+},
+
+{ id:"allo", n:4, title:"Phoneme, allophone, minimal pair",
+  sub:"the contrast that DELTA keeps testing",
+  aim:"Distinguish phonemic from allophonic difference and explain why it matters for teaching.",
+  teach:[
+   "A phoneme change alters meaning; an allophone change does not. Slashes / / are phonemic, square brackets [ ] are phonetic.",
+   "Allophonic detail still matters for intelligibility: an unaspirated /p/ can be heard as /b/, so this is not a purely theoretical distinction.",
+   "Learn the standard English allophonic processes by name — aspiration, clear and dark /l/, glottalling, pre-fortis clipping, devoiced approximants, syllabic consonants."
+  ],
+  build(){
+    const items = [];
+    ALLO.forEach((a, k) => {
+      items.push(mcq("allo-name-" + k, "Which process does this illustrate: " + a[1] + "?", a[0],
+        ALLO.map(y => y[0]), a[0] + " — " + a[2]));
+      items.push(mcq("allo-exp-" + k, "What is happening in " + a[1] + "?", a[2],
+        ALLO.map(y => y[2]), a[0] + ": " + a[2]));
+    });
+    MINPAIRS.forEach((m, k) => {
+      items.push(mcq("mp-" + k, "Which contrast does the pair " + m[0] + " test?", m[2],
+        MINPAIRS.map(y => y[2]), m[0] + " " + m[1] + " tests " + m[2] + "."));
+    });
+    items.push(mcq("allo-brackets", "Which notation is correct for a phonetic, allophonic transcription?", "[pʰɪn]",
+      ["/pʰɪn/", "(pʰɪn)", "“pʰɪn”"], "Square brackets are phonetic; slashes are phonemic. /pɪn/ is the phonemic form, [pʰɪn] the phonetic one."));
+    items.push(mcq("allo-def", "Two sounds are allophones of one phoneme if…", "substituting one for the other never changes the meaning of a word",
+      ["they are articulated in the same place", "they are both voiced", "they are written with the same letter"],
+      "Allophones are in complementary distribution or free variation; they never contrast."));
+    return items;
+  },
+  cards(){ return ALLO.map(a => card(a[0], "<b>" + a[1] + "</b>", "allophonic process", a[2], ""))
+    .concat(MINPAIRS.map(m => card(m[0], m[1], m[2], "", ""))); }
+},
+
+{ id:"spell", n:5, title:"Spelling and sound", sub:"decoding orthography",
+  aim:"Stop reading letters and start reading phonemes.",
+  teach:[
+   "One spelling, many sounds: the eight ough words below share four letters and take six different pronunciations.",
+   "One sound, many spellings: /iː/ has at least eight common spellings. This asymmetry is why phonemic script exists.",
+   "Homophones share pronunciation and differ in spelling; homographs share spelling and differ in pronunciation. Know which is which."
+  ],
+  build(){
+    const items = [];
+    OUGH.forEach((o, k) => {
+      items.push(mcq("ough-" + k, "How is “" + o[0] + "” pronounced?", o[1],
+        OUGH.map(y => y[1]), o[0] + " → " + o[1] + ". The ough spelling is the classic demonstration that English orthography does not map to sound.", { audio: o[0] }));
+    });
+    SILENT.forEach((s, k) => {
+      items.push(mcq("silent-" + k, "Which transcription of “" + s[0] + "” is correct?", s[1],
+        SILENT.map(y => y[1]), s[0] + " → " + s[1] + " (" + s[2] + ").", { audio: s[0] }));
+    });
+    ONESOUND.forEach((o, k) => {
+      items.push(mcq("onesound-" + k, "These words all share one phoneme: " + o[1] + ". Which is it?", o[0],
+        ONESOUND.map(y => y[0]), "All of these spell " + o[0] + ". One sound, many spellings."));
+    });
+    HOMOPHONE.forEach((h, k) => {
+      items.push(typeIn("homophone-" + k, "Transcribe the homophones “" + h[0] + "”. They share one pronunciation.", h[1],
+        h[0] + " are all " + h[1] + ".", { audio: h[0].split(" / ")[0] }));
+    });
+    HOMOGRAPH.forEach((h, k) => {
+      items.push(mcq("homograph-" + k, "“" + h[0] + "” is a homograph. Which pronunciation matches " + h[2].split(" ").slice(1).join(" ") + "?",
+        h[2].split(" ")[0], HOMOGRAPH.map(y => y[1].split(" ")[0]).concat(HOMOGRAPH.map(y => y[2].split(" ")[0])),
+        h[0] + ": " + h[1] + " and " + h[2] + "."));
+    });
+    return items;
+  },
+  cards(){
+    return OUGH.map(o => card(o[1], "<b>" + o[0] + "</b>", "ough spelling", "", o[0]))
+      .concat(SILENT.map(s => card(s[1], "<b>" + s[0] + "</b>", s[2], "", s[0])))
+      .concat(HOMOGRAPH.map(h => card(h[0], h[1] + "<br>" + h[2], "homograph", "", "")));
+  }
+},
+
+{ id:"syll", n:6, title:"Syllables and clusters", sub:"onset, nucleus, coda",
+  aim:"Analyse syllable structure and describe consonant clusters accurately.",
+  teach:[
+   "Every syllable has a nucleus, normally a vowel, optionally preceded by an onset and followed by a coda.",
+   "English allows up to three consonants in an onset, and only in one pattern: /s/ + a fortis plosive + an approximant, as in spring, street, squash.",
+   "Codas can reach four consonants (texts, sixths), which is why cluster simplification by elision is so common in fast speech and in learner output."
+  ],
+  build(){
+    const items = [];
+    SYLL.forEach((s, k) => {
+      items.push(mcq("syll-shape-" + k, "What is the syllable shape of “" + s[0] + "” " + s[1] + "?", s[2],
+        SYLL.map(y => y[2]), s[0] + " " + s[1] + " is " + s[2] + ": " + s[3], { audio: s[0] }));
+      items.push(mcq("syll-parse-" + k, "How is “" + s[0] + "” analysed?", s[3],
+        SYLL.map(y => y[3]), s[0] + " " + s[1] + " — " + s[3]));
+    });
+    items.push(mcq("syll-max", "What is the maximum number of consonants in an English syllable onset?", "three",
+      ["two", "four", "five"], "Three, and only in the pattern /s/ + fortis plosive + approximant: spring /sprɪŋ/, street /striːt/, squash /skwɒʃ/."));
+    items.push(mcq("syll-nucleus", "What can act as the nucleus of an English syllable apart from a vowel?", "a syllabic /n/, /l/ or /m/",
+      ["any fricative", "a glottal stop", "an aspirated plosive"], "Syllabic consonants: button [ˈbʌtn̩], bottle [ˈbɒtl̩], rhythm [ˈrɪðm̩]."));
+    return items;
+  },
+  cards(){ return SYLL.map(s => card(s[1], "<b>" + s[0] + "</b>", s[2], s[3], s[0])); }
+},
+
+{ id:"words", n:7, title:"Word transcription", sub:"typed IPA with phoneme feedback",
+  aim:"Produce accurate broad transcriptions of common words, including stress.",
+  teach:[
+   "Broad phonemic transcription goes in slashes and uses only the 44 phonemes plus /i/ and /u/. Do not add phonetic detail such as aspiration.",
+   "Mark primary stress with ˈ before the stressed syllable in every word of more than one syllable. Secondary stress uses ˌ.",
+   "Never write /r/ where no vowel follows, and never write a full vowel in an unstressed syllable where the model has schwa. Those two habits cause most transcription errors."
+  ],
+  build(){
+    const items = [];
+    WORDS.forEach((w, k) => {
+      const clean = w[0].replace(/\s*\(.+?\)/, "");
+      items.push(typeIn("word-" + k, "Transcribe “" + w[0] + "”.", w[1], w[0] + " → " + w[1] + ". " + w[2],
+        { variants: w[3], audio: clean }));
+      items.push(mcq("wordmcq-" + k, "Which is the correct transcription of “" + w[0] + "”?", w[1],
+        makeDistractors(w[1]), w[1] + " — " + w[2], { audio: clean }));
+    });
+    return items;
+  },
+  cards(){ return WORDS.slice(0, 30).map(w => card(w[1], "<b>" + w[0] + "</b>", "", w[2], w[0].replace(/\s*\(.+?\)/, ""))); }
+},
+
+{ id:"stress", n:8, title:"Word stress and compounds", sub:"placement, suffixes, shift",
+  aim:"Locate primary stress, predict suffix effects, and distinguish compounds from phrases.",
+  teach:[
+   "Some suffixes are stress-fixing (-ion, -ic, -ity pull stress onto the syllable immediately before them) and some are stress-neutral (-ment, -ness, -ly).",
+   "Compound nouns take a single primary stress on the first element; the corresponding adjective-plus-noun phrase stresses the second. ˈgreenhouse is a building; a ˌgreen ˈhouse is painted green.",
+   "Stress shift moves primary stress leftwards to avoid two strong beats colliding: thirteen on its own is /ˌθɜːˈtiːn/, but ˈthirteen ˈpeople."
+  ],
+  build(){
+    const items = [];
+    STRESSWORDS.forEach((s, k) => {
+      items.push(tapStress("tap-" + k, s[0], s[1], s[2], s[3]));
+      items.push(typeIn("stresstype-" + k, "Transcribe “" + s[0] + "” with stress marks.", s[3],
+        s[0] + " → " + s[3] + ".", { audio: s[0] }));
+    });
+    SUFFIX.forEach((s, k) => {
+      items.push(mcq("suffix-" + k, "What does the suffix " + s[0] + " do to word stress?", s[2],
+        SUFFIX.map(y => y[2]), s[0] + ": " + s[2] + " — " + s[1]));
+    });
+    COMPOUND.forEach((c, k) => {
+      items.push(mcq("compound-" + k, "What does “" + c[0] + "” " + c[1] + " mean, and why?", c[2],
+        COMPOUND.map(y => y[2]), c[0] + " " + c[1] + " — " + c[2]));
+    });
+    STRESSSHIFT.forEach((s, k) => {
+      items.push(mcq("shift-" + k, "What happens to the stress of “" + s[0] + "” before a stressed noun?",
+        "it shifts leftwards to avoid a clash of stressed beats",
+        ["it disappears entirely", "it moves rightwards", "it becomes secondary stress on the same syllable"],
+        s[0] + " " + s[1] + ", but " + s[2]));
+    });
+    return items;
+  },
+  cards(){
+    return COMPOUND.map(c => card(c[1], "<b>" + c[0] + "</b>", "compound vs phrase", c[2], ""))
+      .concat(SUFFIX.map(s => card(s[0], s[1], "suffix effect", s[2], "")));
+  }
+},
+
+{ id:"weak", n:9, title:"Weak forms", sub:"and when they are blocked",
+  aim:"Transcribe the common weak forms and say when the strong form is required.",
+  teach:[
+   "Around 45 English function words have weak forms. They are not sloppy speech: they are the normal, unmarked pronunciation when the word is unstressed.",
+   "Knowing when the weak form is blocked is as examinable as knowing the weak form itself. The strong form returns under contrast, in citation, and when the word is stranded at the end of a clause.",
+   "The teaching payoff is mainly receptive. A learner who does not expect /kən/ will not hear can, however clearly you say it."
+  ],
+  build(){
+    const items = [];
+    WEAKFORMS.forEach((w, k) => {
+      const ans = w[1];
+      items.push(mcq("weak-" + k, "What is the usual weak form of “" + w[0] + "”?", ans,
+        WEAKFORMS.map(y => y[1]), w[0] + " → " + ans + ", as in " + w[2] + ". Strong form: " + w[3] + "."));
+      const alts = w[1].split(" or ").map(x => x.trim());
+      items.push(typeIn("weaktype-" + k, "Type the weak form of “" + w[0] + "”.", alts[0],
+        w[0] + " → " + ans + ". Example: " + w[2], { variants: alts.slice(1) }));
+    });
+    BLOCKED.forEach((b, k) => {
+      items.push(mcq("blocked-" + k, "Why is the strong form used here? " + b[0], b[2],
+        BLOCKED.map(y => y[2]), b[0] + " uses " + b[1] + ". " + b[2]));
+    });
+    items.push(mcq("weak-why", "What is the main classroom reason for teaching weak forms?",
+      "they are a listening problem: learners cannot decode what they do not expect to hear",
+      ["they make learners sound more native-like", "they are required for correct grammar", "they are tested in written exams"],
+      "Production of weak forms is optional for intelligibility; recognition of them is not optional for listening."));
+    return items;
+  },
+  cards(){ return WEAKFORMS.map(w => card(w[1], "<b>" + w[0] + "</b>", "weak form", w[2] + " · strong " + w[3], w[2].split("/")[0])); }
+},
+
+{ id:"conn", n:10, title:"Connected speech", sub:"assimilation, elision, linking, juncture",
+  aim:"Name the process, state the direction or feature affected, and explain what happens to the sounds.",
+  teach:[
+   "A DELTA answer needs the family (assimilation, elision, linking, juncture), the subtype (regressive, progressive, coalescent), and what actually changes.",
+   "Assimilation is a sound becoming more like a neighbour; coalescence is two sounds fusing into a third. Do not use them interchangeably.",
+   "These processes are tendencies, not rules. They depend on speed, style and prominence, so hedge accordingly when you describe them."
+  ],
+  build(){
+    const items = [];
+    CONNECTED.forEach((c, k) => {
+      items.push(mcq("conn-label-" + k, "Which process is shown in “" + c[2] + "” → " + c[3] + "?", c[1],
+        CONNECTED.map(y => y[1]), c[1] + ": " + c[4], { audio: c[2] }));
+      items.push(mcq("conn-family-" + k, "Which family does “" + c[2] + "” " + c[3] + " belong to?", c[0],
+        uniq(CONNECTED.map(y => y[0])), c[2] + " is " + c[1] + ", i.e. " + c[0] + ". " + c[4]));
+      items.push(mcq("conn-exp-" + k, "What happens phonologically in “" + c[2] + "”?", c[4],
+        CONNECTED.map(y => y[4]), c[1] + " — " + c[4]));
+    });
+    items.push(mcq("conn-dir", "In “ten boys” /tem ˈbɔɪz/, why is the assimilation called regressive?",
+      "the later sound influences the earlier one",
+      ["the earlier sound influences the later one", "both sounds change equally", "a third sound replaces both"],
+      "Regressive, or anticipatory: the influence runs backwards from /b/ to /n/. Progressive assimilation runs forwards, as in the plural /s/ of cats."));
+    items.push(mcq("conn-vs", "What distinguishes coalescence from ordinary assimilation?",
+      "the two sounds fuse into a third sound that is different from both",
+      ["one sound is deleted", "a sound is inserted", "the stress moves"],
+      "did you /ˈdɪdʒu/: neither /d/ nor /j/ survives — /dʒ/ is a new segment."));
+    return items;
+  },
+  cards(){ return CONNECTED.map(c => card(c[3], "<b>" + c[2] + "</b>", c[1], c[4], c[2])); }
+},
+
+{ id:"phrase", n:11, title:"Phrase and sentence transcription", sub:"weak forms in context",
+  aim:"Transcribe connected speech with word boundaries, weak forms and stress marked.",
+  teach:[
+   "Work outwards: transcribe the stressed lexical words first, then reduce the function words between them.",
+   "Keep the spaces. Word boundaries are information — juncture pairs like a name and an aim differ in nothing else.",
+   "Mark the stresses you can defend. Marking every syllable, or none, both lose marks."
+  ],
+  build(){
+    const items = [];
+    PHRASES.forEach((p, k) => {
+      items.push(typeIn("phrase-" + k, "Transcribe: “" + p[0] + "”", p[1], p[0] + " → " + p[1] + ". " + p[2],
+        { variants: p[3], audio: p[0] }));
+    });
+    SENTENCES.forEach((s, k) => {
+      items.push(typeIn("sent-" + k, "Transcribe: “" + s[0] + "”", s[1], s[0] + " → " + s[1] + ". " + s[2],
+        { variants: s[3], audio: s[0] }));
+      items.push(mcq("sentfeat-" + k, "Which feature is worth noting in “" + s[0] + "”?", s[2],
+        SENTENCES.map(y => y[2]), s[1] + " — " + s[2]));
+    });
+    return items;
+  },
+  cards(){ return PHRASES.map(p => card(p[1], "<b>" + p[0] + "</b>", "", p[2], p[0])); }
+},
+
+{ id:"inton", n:12, title:"Prominence and intonation", sub:"tone units, nucleus, tones",
+  aim:"Use intonation terminology precisely and explain what each tone does.",
+  teach:[
+   "The structure of a tone unit is pre-head, head, nucleus, tail. Only the nucleus is obligatory.",
+   "The nucleus falls by default on the last lexical item, and moves off that position to mark contrast or to avoid repeating given information.",
+   "Learn the four standard functions — attitudinal, accentual, grammatical, discourse — because they are a ready-made structure for an exam answer."
+  ],
+  build(){
+    const items = [];
+    INTON.forEach((t, k) => {
+      items.push(mcq("inton-def-" + k, "What is “" + t[0] + "”?", t[1], INTON.map(y => y[1]), t[0] + ": " + t[1] + " Example: " + t[2]));
+      items.push(mcq("inton-name-" + k, "Which term does this describe? " + t[1], t[0], INTON.map(y => y[0]), t[0] + " — " + t[2]));
+    });
+    items.push(mcq("inton-default", "Where does the nucleus fall by default in an unmarked English statement?",
+      "on the last lexical item", ["on the first word", "on the grammatical subject", "on every stressed syllable equally"],
+      "Default or unmarked tonicity puts the nucleus on the final content word. Moving it elsewhere is meaningful."));
+    items.push(mcq("inton-fr", "Which tone typically signals reservation or an unspoken 'but'?",
+      "fall-rise", ["fall", "rise", "rise-fall"], "The fall-rise is the classic tone of partial agreement and incompleteness."));
+    return items;
+  },
+  cards(){ return INTON.map(t => card(t[0], t[1], "", t[2], "")); }
+},
+
+{ id:"learner", n:13, title:"Learner phonology", sub:"Task 5 style diagnosis",
+  aim:"Name the problem in phonological terms, not impressionistic ones, and judge whether it matters.",
+  teach:[
+   "A usable diagnosis says what the learner produced, what the target was, and what changed — substitution, insertion, deletion, or misplaced stress.",
+   "Judge functional load before you judge the error. A /v/–/w/ merger rarely causes breakdown; a missing weak form damages listening across the whole language.",
+   "Accent features that are standard in a variety, such as monophthongal FACE and GOAT in Indian English, are not errors. Say so explicitly when the question invites you to."
+  ],
+  build(){
+    const items = [];
+    LEARNER.forEach((l, k) => {
+      items.push(mcq("learner-" + k, l[0] + " Target: " + l[1], l[2], l[3], l[2] + " " + l[4], { stem: l[0] }));
+    });
+    items.push(mcq("learner-load", "What does 'functional load' mean when prioritising pronunciation work?",
+      "how much work a contrast does in distinguishing words in the language",
+      ["how difficult a sound is to articulate", "how frequent a sound is in the language", "how many learners share the problem"],
+      "High functional load contrasts, such as /ɪ/ vs /iː/, are worth classroom time. Low functional load ones, such as /v/ vs /w/ for many speakers, often are not."));
+    return items;
+  },
+  cards(){ return LEARNER.map(l => card(l[1], l[0], "diagnosis", l[2] + " " + l[4], "")); }
+},
+
+{ id:"t1terms", n:14, title:"Task 1: name the term", sub:"definition in, term out",
+  aim:"Produce the exact term from its definition, spelled correctly.",
+  teach:[
+   "Task 1 gives you six definitions and asks for the term. One mark each, six marks, about five minutes. It runs the opposite way to Task 2, so practise it in that direction.",
+   "Spelling is assessed. Examiner reports name liaison, elision and glottalisation as terms candidates lose marks on by misspelling them.",
+   "Never write two possible answers. If one of them is wrong, the mark is lost — a single confident guess is worth more than a hedge."
+  ],
+  build(){
+    return ALLTERMS.map((t, k) => nameTerm("t1-" + k, t[1], t[0], TERM_ALTS[t[0]] || [], t[2]));
+  },
+  cards(){ return ALLTERMS.map(t => card(t[0], t[1], "", "Example: " + t[2], "")); }
+},
+
+{ id:"t2terms", n:15, title:"Task 2: define and exemplify", sub:"two points plus one example",
+  aim:"Write a definition carrying two creditable points, then exactly one example in phonemic script.",
+  teach:[
+   "Task 2 gives four terms for twelve marks. The definition carries two creditable points and the example carries one, so a bare one-line definition caps you at half marks.",
+   "Give one example only. If you give two and the first is wrong, the second is not marked.",
+   "For a consonant, the two points are almost always voicing, place and manner. For a vowel, height, backness, rounding and length — rounding is the one candidates leave out."
+  ],
+  build(){
+    return ALLTERMS.map((t, k) => defineTerm("t2-" + k, t[0], t[1], t[2], [t[3], t[4], t[5]]));
+  },
+  cards(){ return ALLTERMS.map(t => card(t[0], t[1], "", "Example: " + t[2], "")); }
+},
+
+{ id:"t5phon", n:16, title:"Task 5: phonological features", sub:"the 50-mark task",
+  aim:"Write bullet-point phonology commentary on highlighted items, one mark per point.",
+  teach:[
+   "Task 5 is worth half of Paper 1. Part A is genre, worth 5; parts B to D analyse lexis, grammar, phonology and discourse for 45, and the phonology section requires the IPA.",
+   "One mark per distinct point, so bullet points beat prose and repetition earns nothing. Find the systematic pattern across the highlighted items before you start transcribing.",
+   "Cover, in this order: what the items are, word stress and any shift, weak or contracted forms, connected-speech processes with the resulting transcription, prominence, then learner problems."
+  ],
+  build(){ return T5.map(t => analysisItem(t)); },
+  cards(){ return T5.map(t => card(t.item, t.q, "Task 5 phonology", t.note, "")); }
+},
+
+{ id:"traps", n:17, title:"Examiner traps", sub:"documented lost marks",
+  aim:"Avoid the specific errors the examiner reports name year after year.",
+  teach:[
+   "Every item here comes from a published Cambridge examination report or from the exam's own marking conventions, not from general advice.",
+   "The recurring finding is blunt: candidates are not trained to describe features of connected speech, and phonology marks are lost as a result.",
+   "The second recurring finding is that a term without a transcription proves nothing to the examiner, so it earns nothing."
+  ],
+  build(){
+    const items = TRAPS.map((t, k) => mcq("trap-" + k, t[0], t[1], t[2], t[3]));
+    items.push(typeIn("trap-isnt", "Transcribe isn't that with the /t/ elided, as you would show it in an answer.",
+      "/ˈɪzən ðæt/", "The elision has to be visible in the script. Naming it without showing it earns nothing.",
+      { variants: ["/ɪzən ðæt/", "/ˈɪzn̩ ðæt/"] }));
+    items.push(typeIn("trap-doyou", "Transcribe do you with coalescent assimilation, as it is usually said.",
+      "/dʒu/", "/d/ + /j/ fuse to /dʒ/. This is assimilation, not elision.", { variants: ["/dʒuː/", "/ˈdʒu/"] }));
+    items.push(typeIn("trap-cooking", "Transcribe cooking, showing exactly which consonant ends it.",
+      "/ˈkʊkɪŋ/", "One velar nasal, no /ɡ/. Compare finger /ˈfɪŋɡə/, where the /ɡ/ is present.", { variants: ["/ˈkʊkɪn/"] }));
+    return items;
+  },
+  cards(){ return TRAPS.map(t => card("Trap", t[0], "", t[1] + " — " + t[3], "")); }
+},
+
+{ id:"craft", n:18, title:"Exam craft", sub:"annotation, priorities, weighting",
+  aim:"Know how to mark up a transcription and how to justify a priority.",
+  teach:[
+   "Paper 1 runs 6, 12, 12, 20 and 50 marks across its five tasks. Spend roughly a minute a mark; Task 5 alone is worth more than the first four tasks combined.",
+   "Annotate your script: strike through elided sounds, link with a curve, mark prominences. The examiner is checking that you can show the process, not only name it.",
+   "When a task asks you to prioritise a weakness, the reasons come from a known set — level, needs, fossilisation, transfer, context, communicative purpose, effect on the listener, ease of correction."
+  ],
+  build(){
+    const items = [];
+    ANNOTATE.forEach((a, k) => {
+      items.push(mcq("annot-" + k, "How should you show this in an answer: " + a[0].toLowerCase() + "?", a[1],
+        ANNOTATE.map(y => y[1]), a[1] + " Example: " + a[2]));
+    });
+    EXAMMAP.forEach((e, k) => {
+      items.push(mcq("map-" + k, "How many marks does Paper 1 " + e[0] + " carry?", e[1],
+        EXAMMAP.map(y => y[1]), e[0] + " is worth " + e[1] + " marks: " + e[2] + ". Allow " + e[3] + "."));
+      items.push(mcq("mapwhat-" + k, "What does Paper 1 " + e[0] + " require?", e[2],
+        EXAMMAP.map(y => y[2]), e[0] + ", " + e[1] + " marks, " + e[3] + "."));
+    });
+    PRIORITY.forEach((r, k) => {
+      items.push(mcq("prio-" + k, "Is this a creditable reason for prioritising a learner weakness: " + r + "?",
+        "yes, it is on the standard list of reasons",
+        ["no, it is not a recognised reason", "only for written texts", "only for exam classes"],
+        "Recognised reasons include: " + PRIORITY.slice(0, 5).join("; ") + "; and " + PRIORITY.slice(5).join("; ") + "."));
+    });
+    items.push(mcq("craft-order", "You have 90 minutes for Paper 1. Where should most of it go?",
+      "Task 5, which carries 50 of the 100 marks",
+      ["Task 1, to secure easy marks", "Task 2, because terminology is hardest", "evenly across all five tasks"],
+      "Roughly a mark a minute: about 5, 10, 10, 20 and 45 minutes. Running out of time on Task 5 makes a pass very unlikely."));
+    items.push(mcq("craft-bullets", "What layout do the reports recommend for Tasks 4 and 5?",
+      "bullet points under headings, with one example per point",
+      ["continuous prose with an introduction", "two parallel columns of strengths and weaknesses", "numbered essay paragraphs"],
+      "Two-column layouts caused marking problems in the June 2015 session. Alternate one strength, one weakness, in a single list."));
+    return items;
+  },
+  cards(){
+    return ANNOTATE.map(a => card(a[0], a[1], "convention", a[2], ""))
+      .concat(EXAMMAP.map(e => card(e[1] + " marks", "<b>Paper 1 " + e[0] + "</b>", e[3], e[2], "")))
+      .concat([card("Prioritising", PRIORITY.join(" · "), "Task 4 reasons", "Three reasons are usually required.", "")]);
+  }
+},
+
+{ id:"exam", n:19, title:"Integrated exam", sub:"mixed 30-item paper",
+  aim:"Handle terminology, transcription, analysis and diagnosis in one sitting, under time.",
+  teach:[
+   "This paper mixes every module. Its purpose is to expose which strand collapses when you cannot predict the task type.",
+   "Your pace is reported at the end, in seconds an item. Watch that number as closely as the percentage.",
+   "These are practice items written for this trainer. They are modelled on the shape of Module One tasks, not taken from any Cambridge paper."
+  ],
+  build(){
+    let pool = [];
+    MODULES.forEach(m => { if (m.id !== "exam") pool = pool.concat(itemsOf(m)); });
+    return pool;
+  },
+  cards(){ return [card("Mixed", "Every module, shuffled", "", "Use the timer and treat it as a mock.", "")]; }
+}
+];
+
+function card(head, body, tagText, note, audio){
+  return { head, body, tagText, note, audio };
+}
+function makeDistractors(ipa){
+  const swaps = [["iː","ɪ"],["ɪ","iː"],["e","æ"],["æ","e"],["ʌ","ɒ"],["ɒ","ɔː"],["ʊ","uː"],["uː","ʊ"],
+                 ["əʊ","aʊ"],["eɪ","aɪ"],["ə","ʌ"],["θ","ð"],["s","z"],["ʃ","tʃ"],["ŋ","n"],["ɑː","æ"]];
+  const out = [];
+  swaps.forEach(p => { if (ipa.indexOf(p[0]) > -1) out.push(ipa.replace(p[0], p[1])); });
+  if (ipa.indexOf("ˈ") > -1){
+    out.push(ipa.replace("ˈ", ""));                                   // stress mark omitted
+    out.push("/ˈ" + ipa.replace(/[\/ˈ]/g, "") + "/");                  // stress wrongly on syllable one
+  }
+  if (/ə\/$/.test(ipa)) out.push(ipa.replace(/ə\/$/, "ər/"));         // spurious rhotic
+  if (/ɜː/.test(ipa)) out.push(ipa.replace("ɜː", "ɜːr"));
+  return uniq(out.filter(x => x && x !== ipa)).slice(0, 6);
+}
+
+/* ============================================================
+   5. STATE + SPACED REPETITION (Leitner boxes)
+   ============================================================ */
+const DEFAULT_STATE = { xp:0, best:{}, box:{}, seen:{}, errors:[], lastModule:0,
+                        days:[], syncUrl:"", updatedAt:0, examDate:"2026-12-02" };
+let S = JSON.parse(JSON.stringify(DEFAULT_STATE));
+let currentModule = 0, currentPhase = "learn", session = null, voices = [], reviewMode = false;
+
+function dstr(d){
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+}
+function touchDay(){
+  const t = dstr(new Date());
+  if ((S.days || []).indexOf(t) === -1){ S.days = (S.days || []).concat(t).sort().slice(-400); }
+}
+function streakInfo(){
+  const set = {}; (S.days || []).forEach(d => { set[d] = 1; });
+  let cur = 0, d = new Date();
+  if (!set[dstr(d)]) d.setDate(d.getDate() - 1);      // today not studied yet: yesterday can still hold the streak
+  while (set[dstr(d)]){ cur++; d.setDate(d.getDate() - 1); }
+  const sorted = Object.keys(set).sort();
+  let longest = 0, run = 0, prev = null;
+  sorted.forEach(k => {
+    if (prev){
+      const gap = (new Date(k + "T00:00:00") - new Date(prev + "T00:00:00")) / 86400000;
+      run = (gap === 1) ? run + 1 : 1;
+    } else run = 1;
+    longest = Math.max(longest, run); prev = k;
+  });
+  return { current: cur, longest, studiedToday: !!set[dstr(new Date())] };
+}
+function itemsOf(m){ if (!m._cache) m._cache = m.build(); return m._cache; }
+let ALL_ITEMS = null;
+function allItems(){
+  if (!ALL_ITEMS){
+    ALL_ITEMS = [];
+    MODULES.forEach(m => { if (m.id !== "exam") ALL_ITEMS = ALL_ITEMS.concat(itemsOf(m)); });
+  }
+  return ALL_ITEMS;
+}
+function statsFor(items){
+  let mastered = 0, learning = 0, unseen = 0;
+  items.forEach(it => {
+    const b = S.box[it.id];
+    if (b === undefined) unseen++;
+    else if (b >= 3) mastered++;
+    else learning++;
+  });
+  const total = items.length || 1;
+  return { total: items.length, mastered, learning, unseen,
+           pct: Math.round(mastered / total * 100), due: learning };
+}
+function daysToExam(){
+  if (!S.examDate) return null;
+  const ms = new Date(S.examDate + "T00:00:00") - new Date(dstr(new Date()) + "T00:00:00");
+  return Math.round(ms / 86400000);
+}
+let pushTimer = null;
+async function persist(){
+  S.updatedAt = Date.now();
+  await store.save(S); refreshStats();
+  if (S.syncUrl){ clearTimeout(pushTimer); pushTimer = setTimeout(() => cloud.push(true), 4000); }
+}
+
+/* weight: unseen items get a moderate weight; wrong items get a high one; mastered items a low one */
+function weightFor(id){
+  const b = S.box[id];
+  if (b === undefined) return 3;
+  return Math.max(1, 7 - b * 2);
+}
+function weightedPick(pool, n){
+  const bag = [], out = [], used = {};
+  pool.forEach((item, idx) => { const w = weightFor(item.id); for (let i = 0; i < w; i++) bag.push(idx); });
+  let guard = 0;
+  while (out.length < Math.min(n, pool.length) && guard < 20000){
+    guard++;
+    const idx = bag[Math.floor(Math.random() * bag.length)];
+    if (used[idx]) continue;
+    used[idx] = 1; out.push(pool[idx]);
+  }
+  return out;
+}
+function dueCount(){
+  let c = 0;
+  Object.keys(S.box).forEach(k => { if (S.box[k] < 3) c++; });
+  return c;
+}
+function masteryPct(){
+  const passed = MODULES.filter(m => (S.best[m.id] || 0) >= 80).length;
+  return Math.round(passed / MODULES.length * 100);
+}
+function recordResult(item, score, userAnswer){
+  touchDay();
+  const id = item.id;
+  const prev = S.box[id] === undefined ? 0 : S.box[id];
+  S.box[id] = score >= 0.9 ? Math.min(4, prev + 1) : 0;
+  S.seen[id] = (S.seen[id] || 0) + 1;
+  S.xp += Math.round(score * (session && session.isTest ? 15 : 10));
+  if (score < 0.9){
+    S.errors.unshift({ t: Date.now(), m: MODULES[currentModule].title, q: item.prompt,
+                       you: userAnswer, model: item.model || item.answer || "", });
+    S.errors = S.errors.slice(0, 200);
+  }
+}
+
+/* ============================================================
+   6. RENDERING
+   ============================================================ */
+const $ = id => document.getElementById(id);
+function esc(s){ return String(s === null || s === undefined ? "" : s)
+  .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
+
+function refreshStats(){
+  const st = streakInfo();
+  $("xpStat").textContent = st.current;
+  $("dueStat").textContent = dueCount();
+  $("masteryStat").textContent = statsFor(allItems()).pct + "%";
+}
+function renderNav(){
+  const el = $("levelNav");
+  el.innerHTML = MODULES.map((m, i) => {
+    const best = S.best[m.id] || 0;
+    return '<button class="level-btn' + (i === currentModule && !reviewMode ? " active" : "") + '" data-mod="' + i + '">' +
+      '<span class="level-num">' + m.n + '</span>' +
+      '<span class="level-copy"><b>' + esc(m.title) + '</b><small>' + (best ? best + "% best" : esc(m.sub || "")) + "</small></span></button>";
+  }).join("");
+}
+function render(){
+  reviewMode = false;
+  renderNav(); refreshStats();
+  const m = MODULES[currentModule];
+  $("content").innerHTML =
+   '<section class="hero"><div class="kicker">Module ' + m.n + " · " + esc(m.sub || "") + '</div>' +
+   "<h2>" + esc(m.title) + "</h2><p>" + esc(m.aim) + "</p>" +
+   '<div class="progress-line"><div class="progress-fill" style="width:' + (S.best[m.id] || 0) + '%"></div></div>' +
+   '<div class="small muted">Best mastery test: <b>' + (S.best[m.id] || 0) + "%</b></div></section>" +
+   '<div class="phase-tabs">' +
+   '<button class="phase-btn ' + (currentPhase === "learn" ? "active" : "") + '" data-phase="learn">1 · Learn</button>' +
+   '<button class="phase-btn ' + (currentPhase === "practice" ? "active" : "") + '" data-phase="practice">2 · Practice</button>' +
+   '<button class="phase-btn ' + (currentPhase === "test" ? "active" : "") + '" data-phase="test">3 · Mastery test</button>' +
+   "</div><div id=\"phaseContent\"></div>";
+  renderPhase();
+}
+function renderPhase(){
+  const m = MODULES[currentModule];
+  if (currentPhase === "learn"){ $("phaseContent").innerHTML = renderLearn(m); return; }
+  startSession(itemsOf(m), currentPhase === "test", m.id === "exam" ? 30 : (currentPhase === "test" ? 20 : 12));
+}
+function renderLearn(m){
+  const cards = m.cards().map(c =>
+    '<div class="teach-card"><div class="ipa sm">' + c.head + "</div>" +
+    '<div class="example">' + c.body + "</div>" +
+    (c.tagText ? '<span class="tag">' + esc(c.tagText) + "</span>" : "") +
+    (c.note ? '<p class="small muted">' + esc(c.note) + "</p>" : "") +
+    (c.audio ? '<button class="audio" data-say="' + esc(c.audio) + '">Hear it (careful form)</button>' : "") +
+    "</div>").join("");
+  return '<div class="grid two"><div class="card"><h3>What this module claims</h3>' +
+    m.teach.map(t => "<p>" + esc(t) + "</p>").join("") +
+    '<div class="notice">Read once, then retrieve. Rereading the symbols feels like learning and is not.</div>' +
+    '<div class="rowbtns"><button class="primary" data-phase="practice">Start practice</button>' +
+    '<button class="secondary" data-phase="test">Skip to mastery test</button></div></div>' +
+    '<div class="card"><h3>How you are scored</h3>' +
+    "<p class=\"small muted\">Multiple choice is right or wrong. Typed transcription is scored phoneme by phoneme, so a single wrong symbol costs a fraction of a mark, not the whole item. Stress-only errors score 0.6.</p>" +
+    '<table><tr><th>Verdict</th><th>Score</th></tr>' +
+    "<tr><td>Exact match</td><td>1.00</td></tr>" +
+    "<tr><td>Secondary stress only</td><td>0.90</td></tr>" +
+    "<tr><td>Primary stress misplaced or missing</td><td>0.60</td></tr>" +
+    "<tr><td>Segment errors</td><td>pro rata</td></tr></table>" +
+    "</div></div>" +
+    '<div class="card" style="margin-top:14px"><h3>Reference</h3><div class="lesson-grid">' + cards + "</div></div>";
+}
+
+/* ---------- sessions ---------- */
+function startSession(pool, isTest, n){
+  session = { pool, items: weightedPick(pool, n), i: 0, total: 0, answered: false, isTest, results: [], t0: Date.now() };
+  renderQuestion();
+}
+function startReview(){
+  let pool = [];
+  MODULES.forEach(m => { if (m.id !== "exam") pool = pool.concat(itemsOf(m)); });
+  const due = pool.filter(it => S.box[it.id] !== undefined && S.box[it.id] < 3);
+  reviewMode = true;
+  renderNav();
+  if (!due.length){
+    $("content").innerHTML = '<div class="card"><h3>Nothing is due</h3><p class="muted">Items appear here once you have answered them and got them wrong or only partly right. Do a practice round first.</p><button class="primary" data-act="home">Back to modules</button></div>';
+    return;
+  }
+  $("content").innerHTML = '<section class="hero"><div class="kicker">Spaced review</div><h2>' + due.length +
+    ' items are due</h2><p>Pulled from every module, weighted towards the ones you keep getting wrong.</p></section><div id="phaseContent"></div>';
+  session = { pool: due, items: weightedPick(due, Math.min(20, due.length)), i: 0, total: 0, answered: false, isTest: false, results: [] };
+  renderQuestion();
+}
+
+const KEYPAD = [
+ ["vowels","iː ɪ e æ ʌ ɑː ɒ ɔː ʊ uː ɜː ə i u"],
+ ["glides","eɪ aɪ ɔɪ əʊ aʊ ɪə eə ʊə"],
+ ["consonants","p b t d k ɡ f v θ ð s z ʃ ʒ h tʃ dʒ m n ŋ l r j w"],
+ ["marks","ˈ ˌ ␣ /"]
+];
+function keypadHTML(){
+  return '<div class="keypad">' + KEYPAD.map(row =>
+    '<div class="keyrow"><span class="lbl">' + row[0] + "</span>" +
+    row[1].split(" ").map(k => '<button class="key" data-key="' + esc(k === "␣" ? " " : k) + '">' + esc(k) + "</button>").join("") +
+    "</div>").join("") + '<button class="key" data-key="BKSP">back</button></div>';
+}
+
+function renderQuestion(){
+  const host = $("phaseContent");
+  if (!session || session.i >= session.items.length){ finishSession(); return; }
+  const q = session.items[session.i];
+  if (q.type === "mcq") q.choices = shuffle(q.choices);
+  let area = "";
+  if (q.type === "mcq"){
+    area = '<div class="choices">' + q.choices.map((c, i) =>
+      '<button class="choice" data-choice="' + i + '">' + esc(c) + "</button>").join("") + "</div>";
+  } else if (q.type === "type"){
+    area = '<div class="input-row"><input id="ipaInput" class="ipa-input" autocomplete="off" autocapitalize="off" ' +
+      'spellcheck="false" aria-label="Type your transcription" placeholder="type between slashes"><button class="primary" data-act="submit">Check</button></div>' + keypadHTML();
+  } else if (q.type === "stress"){
+    area = '<div class="syls">' + q.syls.map((s, i) => '<button class="syl" data-syl="' + i + '">' + esc(s) + "</button>").join("") + "</div>";
+  } else if (q.type === "define"){
+    area = '<textarea id="defInput" aria-label="Type your definition and example" placeholder="Two defining points, then exactly one example in phonemic script."></textarea>' +
+      '<div class="rowbtns"><button class="primary" data-act="reveal">Show the model answer</button></div>';
+  } else if (q.type === "term"){
+    area = '<div class="input-row"><input id="termInput" class="ipa-input" style="font-family:inherit;font-size:17px" ' +
+      'autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Type the term" ' +
+      'placeholder="the term, spelled exactly"><button class="primary" data-act="submitterm">Check</button></div>';
+  } else if (q.type === "analysis"){
+    area = '<textarea id="anaInput" aria-label="Type your bullet-point answer" placeholder="One point per line. Aim for six to eight distinct points."></textarea>' +
+      '<div class="rowbtns"><button class="primary" data-act="revealana">Show the model points</button></div>';
+  }
+  host.innerHTML = '<div class="grid two"><div class="card">' +
+    '<div class="qhead"><div><span class="tag">' + (session.isTest ? "Mastery test" : "Practice") + "</span>" +
+    '<div class="prompt">' + esc(q.prompt) + "</div></div>" +
+    '<div class="qcount">' + (session.i + 1) + " / " + session.items.length + "</div></div>" +
+    (q.stem ? '<div class="stem">' + esc(q.stem) + "</div>" : "") +
+    (q.audio ? '<button class="audio" data-say="' + esc(q.audio) + '">Hear it (careful citation form)</button>' : "") +
+    area +
+    '<div id="feedback" aria-live="polite"></div><div id="nextArea" class="rowbtns"></div>' +
+    "</div>" +
+    '<div class="card"><h3>' + esc(MODULES[currentModule].title) + "</h3>" +
+    '<p class="small muted">' + (session.isTest ? "80% passes. Typed items are scored phoneme by phoneme."
+      : "Say your answer aloud before you commit to it. Wrong items come back sooner.") + "</p>" +
+    '<div class="progress-line"><div class="progress-fill" style="width:' +
+      Math.round(session.i / session.items.length * 100) + '%"></div></div>' +
+    '<p class="small">Running score: <b>' + Math.round(session.total * 100) / 100 + " / " + session.i + "</b></p>" +
+    (q.type === "type" ? '<details><summary>Notation rules</summary><p class="small muted">Slashes are optional here. Type g for ɡ and a colon for ː if that is easier — both are converted. A syllabic n written n plus the syllabic mark is accepted as ən. Keep spaces between words in phrases.</p></details>' : "") +
+    "</div></div>";
+  const inp = $("ipaInput");
+  if (inp){ inp.addEventListener("keydown", e => { if (e.key === "Enter") submitTyped(); }); inp.focus(); }
+  const tin = $("termInput");
+  if (tin){ tin.addEventListener("keydown", e => { if (e.key === "Enter") submitTerm(); }); tin.focus(); }
+}
+
+function showFeedback(cls, html){
+  $("feedback").innerHTML = '<div class="feedback ' + cls + '">' + html + "</div>";
+  $("nextArea").innerHTML = '<button class="primary" data-act="next">' +
+    (session.i === session.items.length - 1 ? "See result" : "Next") + "</button>";
+}
+function commit(item, score, userAnswer){
+  session.answered = true;
+  session.total += score;
+  session.results.push({ item, score });
+  recordResult(item, score, userAnswer);
+  persist();
+}
+
+function answerMCQ(idx){
+  if (session.answered) return;
+  const q = session.items[session.i];
+  const chosen = q.choices[idx];
+  const ok = chosen === q.answer;
+  document.querySelectorAll(".choice").forEach((b, j) => {
+    b.disabled = true;
+    if (q.choices[j] === q.answer) b.classList.add("correct");
+    else if (j === idx) b.classList.add("wrong");
+  });
+  commit(q, ok ? 1 : 0, chosen);
+  showFeedback(ok ? "good" : "bad", "<b>" + (ok ? "Correct" : "Not yet") + "</b><br>" + esc(q.feedback));
+}
+function answerStress(idx){
+  if (session.answered) return;
+  const q = session.items[session.i];
+  const ok = idx === q.answer;
+  document.querySelectorAll(".syl").forEach((b, j) => {
+    b.disabled = true;
+    if (j === q.answer) b.classList.add("correct");
+    else if (j === idx) b.classList.add("wrong");
+  });
+  commit(q, ok ? 1 : 0, q.syls[idx]);
+  showFeedback(ok ? "good" : "bad", "<b>" + (ok ? "Correct" : "Not yet") + "</b><br>" + esc(q.feedback));
+}
+function submitTyped(){
+  if (session.answered) return;
+  const inp = $("ipaInput");
+  const val = (inp.value || "").trim();
+  if (!val) return;
+  inp.disabled = true;
+  const q = session.items[session.i];
+  const r = checkTranscription(val, q.model, q.variants);
+  let cls = "bad", head = "Not yet";
+  if (r.verdict === "exact"){ cls = "good"; head = "Exact match"; }
+  else if (r.verdict === "secondary"){ cls = "good"; head = "Correct — only the secondary stress mark differs"; }
+  else if (r.verdict === "stress"){ cls = "part"; head = "All segments right, stress wrong"; }
+  else if (r.score >= 0.7){ cls = "part"; head = "Close — " + Math.round(r.score * 100) + "% of segments right"; }
+  const errs = errorSentences(r.diff);
+  showFeedback(cls,
+    "<b>" + head + "</b>" +
+    '<div class="difflane">' + diffHTML(r.diff) + "</div>" +
+    '<div class="legend"><span>green = right</span><span>red = wrong symbol</span><span>amber = you left it out</span><span>struck through = you added it</span></div>' +
+    '<div class="small" style="margin-top:8px"><b>Model:</b> <span class="ipa xs">' + esc(r.model) + "</span></div>" +
+    (errs.length ? '<ul class="small" style="margin:6px 0 0 16px">' + errs.map(e => "<li>" + esc(e) + "</li>").join("") + "</ul>" : "") +
+    (r.notes.length ? '<p class="small muted">' + r.notes.map(esc).join(" ") + "</p>" : "") +
+    '<p class="small" style="margin-bottom:0">' + esc(q.feedback) + "</p>");
+  commit(q, r.score, val);
+}
+function revealDefinition(){
+  if (session.answered) return;
+  const q = session.items[session.i];
+  const yours = ($("defInput").value || "").trim();
+  session.answered = true;   // provisional; score comes from the self-mark
+  $("feedback").innerHTML = '<div class="feedback part"><b>Model answer</b>' +
+    "<p>" + esc(q.model) + "</p><p class=\"small\"><b>Example:</b> " + esc(q.example) + "</p>" +
+    '<p class="small muted">Check your answer against all three points:</p>' +
+    '<ul class="small" style="margin:0 0 8px 16px">' + q.checks.map(c => "<li>" + esc(c) + "</li>").join("") + "</ul>" +
+    '<div class="selfmark"><button class="secondary" data-mark="1">All three</button>' +
+    '<button class="secondary" data-mark="0.5">Two of three</button>' +
+    '<button class="secondary" data-mark="0">One or none</button></div></div>';
+  session.pendingDefine = { q, yours };
+}
+function selfMark(v){
+  const p = session.pendingDefine;
+  if (!p) return;
+  session.pendingDefine = null;
+  session.total += v;
+  session.results.push({ item: p.q, score: v });
+  recordResult(p.q, v, p.yours);
+  persist();
+  $("nextArea").innerHTML = '<button class="primary" data-act="next">' +
+    (session.i === session.items.length - 1 ? "See result" : "Next") + "</button>";
+  document.querySelectorAll("[data-mark]").forEach(b => { b.disabled = true; });
+}
+function submitTerm(){
+  if (session.answered) return;
+  const inp = $("termInput");
+  const val = (inp.value || "").trim();
+  if (!val) return;
+  inp.disabled = true;
+  const q = session.items[session.i];
+  const r = checkTerm(val, q.model, q.alts);
+  let cls = "bad", head = "Not the term";
+  if (r.verdict === "exact"){ cls = "good"; head = "Correct"; }
+  else if (r.verdict === "spelling"){ cls = "part"; head = "Right term, wrong spelling — half marks at best, and in the real Task 1 no mark at all"; }
+  showFeedback(cls, "<b>" + head + "</b>" +
+    '<div class="small" style="margin-top:6px"><b>Term:</b> ' + esc(q.model) + "</div>" +
+    '<div class="small"><b>Example:</b> ' + esc(q.example) + "</div>" +
+    (q.alts && q.alts.length ? '<p class="small muted">Also accepted: ' + esc(q.alts.join(", ")) + "</p>" : "") +
+    (r.verdict === "spelling" ? '<p class="small muted">Examiner reports list misspelt terminology as a direct cause of lost marks. Write it out three times now.</p>' : ""));
+  commit(q, r.score, val);
+}
+function revealAnalysis(){
+  if (session.answered) return;
+  const q = session.items[session.i];
+  const yours = ($("anaInput").value || "").trim();
+  session.answered = true;
+  $("feedback").innerHTML = '<div class="feedback part"><b>Model points — one mark each</b>' +
+    '<p class="small muted">Tick every point you actually made. Be strict: a point only counts if you wrote it, not if you meant it.</p>' +
+    q.points.map((pt, k) =>
+      '<label class="ptrow"><input type="checkbox" data-pt="' + k + '"> <span>' + esc(pt) + "</span></label>").join("") +
+    '<p class="small muted" style="margin-top:8px">' + esc(q.note) + "</p>" +
+    '<div class="rowbtns"><button class="secondary" data-act="scoreana">Score my answer</button></div></div>';
+  session.pendingAnalysis = { q, yours };
+}
+function scoreAnalysis(){
+  const p = session.pendingAnalysis;
+  if (!p) return;
+  let got = 0;
+  document.querySelectorAll("[data-pt]").forEach(b => { if (b.checked) got++; });
+  const total = p.q.points.length;
+  const score = got / total;
+  session.pendingAnalysis = null;
+  session.total += score;
+  session.results.push({ item: p.q, score });
+  recordResult(p.q, score, got + "/" + total + " points");
+  persist();
+  document.querySelectorAll("[data-pt]").forEach(b => { b.disabled = true; });
+  const btn = document.querySelector('[data-act="scoreana"]');
+  if (btn){ btn.disabled = true; btn.textContent = got + " of " + total + " points"; }
+  $("nextArea").innerHTML = '<button class="primary" data-act="next">' +
+    (session.i === session.items.length - 1 ? "See result" : "Next") + "</button>";
+}
+function nextQuestion(){
+  if (session.pendingDefine || session.pendingAnalysis) return;   // must self-mark first
+  session.i++; session.answered = false; renderQuestion();
+}
+function pace(){
+  const secs = Math.round((Date.now() - (session.t0 || Date.now())) / 1000);
+  const per = Math.round(secs / Math.max(1, session.items.length));
+  const mins = Math.floor(secs / 60);
+  return (mins ? mins + " min " : "") + (secs % 60) + " s total, about " + per + " s an item";
+}
+function finishSession(){
+  const score = Math.round(session.total / session.items.length * 100);
+  const m = MODULES[currentModule];
+  const worst = session.results.filter(r => r.score < 0.9).slice(0, 8);
+  if (session.isTest){
+    S.best[m.id] = Math.max(S.best[m.id] || 0, score);
+    persist(); renderNav();
+  } else persist();
+  $("phaseContent").innerHTML = '<div class="grid two"><div class="card" style="text-align:center">' +
+    '<span class="tag">' + (session.isTest ? (score >= 80 ? "Passed" : "Below 80%") : "Practice round") + "</span>" +
+    '<div class="score-ring" style="--pct:' + score + '%"><b>' + score + "%</b></div>" +
+    "<p class=\"small muted\">" + Math.round(session.total * 100) / 100 + " marks from " + session.items.length +
+      " items · " + pace() + "</p>" +
+    '<div class="rowbtns" style="justify-content:center">' +
+    '<button class="secondary" data-phase="practice">Practise again</button>' +
+    '<button class="primary" data-phase="test">' + (session.isTest ? "Retake test" : "Take the mastery test") + "</button>" +
+    "</div></div>" +
+    '<div class="card"><h3>What to fix</h3>' +
+    (worst.length
+      ? '<ul class="small" style="margin:0 0 0 16px">' + worst.map(r =>
+          "<li>" + esc((r.item.stem ? r.item.stem.slice(0, 60) + " · " : "") + r.item.prompt.slice(0, 80)) + (r.item.model ? " — " + esc(r.item.model) : "") + "</li>").join("") + "</ul>"
+      : '<p class="muted small">Nothing dropped below 90% this round.</p>') +
+    '<p class="small muted" style="margin-top:10px">' + dueCount() + " items are queued for spaced review across all modules.</p>" +
+    "</div></div>";
+}
+
+/* ---------- dashboard ---------- */
+function renderDashboard(){
+  reviewMode = true;                                   // nothing in the module nav is active
+  renderNav();
+  const st = streakInfo();
+  const all = statsFor(allItems());
+  const d = daysToExam();
+  const last28 = [];
+  const set = {}; (S.days || []).forEach(x => { set[x] = 1; });
+  for (let i = 27; i >= 0; i--){
+    const dt = new Date(); dt.setDate(dt.getDate() - i);
+    last28.push({ k: dstr(dt), on: !!set[dstr(dt)] });
+  }
+  const rows = MODULES.filter(m => m.id !== "exam").map(m => {
+    const ms = statsFor(itemsOf(m));
+    return '<div class="modrow"><div class="modname">' + esc(m.title) + "</div>" +
+      '<div class="modbar"><span style="width:' + ms.pct + '%"></span></div>' +
+      '<div class="modpct">' + ms.pct + "%</div>" +
+      '<div class="modnum">' + ms.mastered + "/" + ms.total + "</div></div>";
+  }).join("");
+  $("content").innerHTML =
+   '<section class="hero"><div class="kicker">Progress</div>' +
+   "<h2>" + all.pct + "% complete</h2>" +
+   "<p>" + all.mastered + " items mastered, " + all.learning + " still in review, " + all.unseen +
+   " not started. " + (all.total - all.mastered) + " left to go." +
+   (d === null ? "" : (d > 0 ? " Exam in " + d + " days." : d === 0 ? " Exam is today." : "")) + "</p>" +
+   '<div class="progress-line"><div class="progress-fill" style="width:' + all.pct + '%"></div></div></section>' +
+   '<div class="grid two"><div class="card"><h3>Streak</h3>' +
+   '<div class="bigrow"><div><b class="big">' + st.current + '</b><span class="small muted">current</span></div>' +
+   '<div><b class="big">' + st.longest + '</b><span class="small muted">longest</span></div>' +
+   '<div><b class="big">' + (S.days || []).length + '</b><span class="small muted">days studied</span></div></div>' +
+   '<p class="small muted">' + (st.studiedToday ? "Today is logged. The streak is safe."
+       : st.current ? "Answer one item today to keep a " + st.current + "-day streak alive."
+       : "Answer one item today to start a streak.") + "</p>" +
+   '<div class="dots">' + last28.map(x => '<span class="dot' + (x.on ? " on" : "") + '" title="' + x.k + '"></span>').join("") + "</div>" +
+   '<p class="tiny muted">Last 28 days</p>' +
+   '<div class="rowbtns"><button class="primary" data-act="review">Review what is due</button></div></div>' +
+   '<div class="card"><h3>By module</h3><div class="modlist">' + rows + "</div>" +
+   '<p class="tiny muted" style="margin-top:10px">An item counts as mastered after three correct answers in a row. Getting one wrong sends it back to the start.</p></div></div>' +
+   '<div class="card" style="margin-top:14px"><h3>Paper 1 mark map</h3><table>' +
+   "<tr><th>Task</th><th>What it asks</th><th>Marks</th><th>Time</th></tr>" +
+   EXAMMAP.map(e => "<tr><td><b>" + esc(e[0]) + "</b></td><td>" + esc(e[2]) + "</td><td>" + esc(e[1]) + "</td><td>" + esc(e[3]) + "</td></tr>").join("") +
+   "</table></div>";
+}
+
+/* ---------- cross-device sync ---------- */
+function mergeStates(a, b){
+  const out = Object.assign({}, a, b);
+  const maxMap = (x, y) => {
+    const o = {};
+    [x || {}, y || {}].forEach(src => Object.keys(src).forEach(k => { o[k] = Math.max(o[k] || 0, src[k] || 0); }));
+    return o;
+  };
+  out.xp = Math.max(a.xp || 0, b.xp || 0);
+  out.best = maxMap(a.best, b.best);
+  out.box  = maxMap(a.box, b.box);
+  out.seen = maxMap(a.seen, b.seen);
+  out.days = uniq((a.days || []).concat(b.days || [])).sort().slice(-400);
+  const byTime = {};
+  (a.errors || []).concat(b.errors || []).forEach(e => { byTime[e.t + "|" + (e.q || "")] = e; });
+  out.errors = Object.keys(byTime).map(k => byTime[k]).sort((x, y) => y.t - x.t).slice(0, 200);
+  out.syncUrl = a.syncUrl || b.syncUrl || "";
+  out.examDate = (b.updatedAt || 0) > (a.updatedAt || 0) ? (b.examDate || a.examDate) : (a.examDate || b.examDate);
+  out.updatedAt = Math.max(a.updatedAt || 0, b.updatedAt || 0);
+  return out;
+}
+function syncNote(msg, good){
+  const el = $("syncMsg");
+  if (el) el.innerHTML = '<span class="' + (good ? "okmsg" : "errmsg") + '">' + esc(msg) + "</span>";
+  const pill = $("syncStatus");
+  if (pill) pill.textContent = "Sync: " + msg;
+}
+const cloud = {
+  busy: false,
+  async push(quiet){
+    if (!S.syncUrl || this.busy) return;
+    this.busy = true;
+    try {
+      const res = await fetch(S.syncUrl, { method: "PUT",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(S) });
+      if (!res.ok) throw new Error("server said " + res.status);
+      if (!quiet) syncNote("saved to the cloud just now", true);
+      else { const pill = $("syncStatus"); if (pill) pill.textContent = "Sync: saved"; }
+    } catch(e){
+      if (!quiet) syncNote("could not save: " + e.message, false);
+      else { const pill = $("syncStatus"); if (pill) pill.textContent = "Sync: offline"; }
+    }
+    this.busy = false;
+  },
+  async pull(quiet){
+    if (!S.syncUrl) return;
+    try {
+      const res = await fetch(S.syncUrl, { headers: { "Accept": "application/json" }, cache: "no-store" });
+      if (!res.ok) throw new Error("server said " + res.status);
+      const remote = await res.json();
+      if (remote && typeof remote === "object" && remote.box){
+        S = mergeStates(S, Object.assign({}, DEFAULT_STATE, remote));
+        await store.save(S);
+        ALL_ITEMS = null;
+        refreshStats();
+        if (!quiet) syncNote("merged with the copy in the cloud", true);
+        else { const pill = $("syncStatus"); if (pill) pill.textContent = "Sync: on"; }
+        return true;
+      }
+      throw new Error("that URL does not hold a progress file yet");
+    } catch(e){
+      if (!quiet) syncNote("could not read: " + e.message, false);
+      else { const pill = $("syncStatus"); if (pill) pill.textContent = "Sync: offline"; }
+    }
+    return false;
+  },
+  async create(){
+    syncNote("creating a sync space", true);
+    try {
+      const res = await fetch("https://jsonblob.com/api/jsonBlob", { method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(S) });
+      const loc = res.headers.get("Location") || res.headers.get("X-jsonblob");
+      let url = "";
+      if (loc && loc.indexOf("http") === 0) url = loc;
+      else if (loc) url = "https://jsonblob.com/api/jsonBlob/" + loc;
+      if (!url) throw new Error("the service did not return an address this browser can read");
+      url = url.replace("http://", "https://");
+      $("syncUrlInput").value = url;
+      syncNote("created — now press Turn sync on", true);
+    } catch(e){
+      syncNote("automatic setup failed (" + e.message + "). Use the manual steps below.", false);
+    }
+  }
+};
+function showSync(){
+  const on = !!S.syncUrl;
+  openModal("<h2>Sync across devices</h2>" +
+    '<p class="small muted">Progress normally lives in the browser you are using. Turn sync on and every device that shares this address keeps the same streak, boxes and error log. Nothing here is protected by a password — the address itself is the key, so keep it private.</p>' +
+    '<div id="syncMsg" class="small" style="margin:8px 0"></div>' +
+    '<input id="syncUrlInput" class="ipa-input" style="font-family:ui-monospace,monospace;font-size:13px;width:100%" ' +
+    'placeholder="https://jsonblob.com/api/jsonBlob/…" value="' + esc(S.syncUrl || "") + '">' +
+    '<div class="rowbtns"><button class="primary" data-act="synccreate">Create a sync space</button>' +
+    '<button class="secondary" data-act="syncon">Turn sync on</button>' +
+    (on ? '<button class="secondary" data-act="syncpull">Pull now</button><button class="secondary" data-act="syncpush">Push now</button>' +
+          '<button class="secondary" data-act="syncoff">Turn sync off</button>' : "") +
+    "</div>" +
+    "<details><summary>Setting it up by hand, or on a service you control</summary>" +
+    '<p class="small muted">Any address that answers GET with a JSON document and accepts PUT of the same will work. To do it by hand on the free service: open jsonblob.com, replace the sample text with two curly braces, press Save, and copy the address from the browser bar. Change the /jsonblob/ in the middle to /api/jsonBlob/ and paste it above. That service deletes anything untouched for 75 days, which daily use avoids. If you later want something you own, point this field at a Supabase, Cloudflare or Firebase endpoint instead — the app does not care which.</p></details>' +
+    '<details><summary>Getting it onto your phone and iPad</summary>' +
+    '<p class="small muted">The quickest route is to put this one file somewhere with an https address — a free GitHub Pages site takes about ten minutes — and open that address on each device. On iPhone and iPad use Share then Add to Home Screen; on Android use the browser menu then Add to home screen. You get an icon that opens straight into the app. Turn sync on once per device and they stay in step. Without a web address you can still email the file to yourself and open it on each device, but then only the export box below moves progress between them.</p></details>' +
+    '<div class="rowbtns"><button class="secondary" data-act="closemodal">Close</button></div>');
+}
+
+/* ---------- speech ---------- */
+function speak(text){
+  if (!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-GB"; u.rate = 0.85;
+  const gb = voices.filter(v => /en-GB/i.test(v.lang))[0];
+  if (gb) u.voice = gb;
+  speechSynthesis.speak(u);
+}
+function loadVoices(){
+  voices = (window.speechSynthesis && speechSynthesis.getVoices) ? speechSynthesis.getVoices() : [];
+  const gb = voices.filter(v => /en-GB/i.test(v.lang))[0];
+  $("voiceStatus").innerHTML = gb ? "Audio: " + esc(gb.name) : "Audio: device default (may not be British)";
+}
+
+/* ---------- modals ---------- */
+function openModal(html){ $("modalCard").innerHTML = html; $("modal").classList.add("open"); }
+function closeModal(){ $("modal").classList.remove("open"); }
+function showReference(){
+  const rows = CONS.map(c => "<tr><td class=\"ipa xs\">/" + c[0] + "/</td><td>" + esc(c[1]) + "</td><td>" +
+    esc(c[3] + " " + c[4] + " " + c[5]) + "</td></tr>").join("");
+  const vrows = MONO.map(v => "<tr><td class=\"ipa xs\">/" + v[0] + "/</td><td>" + esc(v[1]) + "</td><td>" +
+    esc(v[4] + " " + v[5] + " " + v[6] + " " + v[7] + " · " + v[3]) + "</td></tr>").join("");
+  const drows = DIPH.map(d => "<tr><td class=\"ipa xs\">/" + d[0] + "/</td><td>" + esc(d[1]) + "</td><td>" +
+    esc(d[4] + " · " + d[3]) + "</td></tr>").join("");
+  openModal("<h2>IPA reference</h2><h4>Consonants</h4><table>" + rows + "</table>" +
+    "<h4>Monophthongs</h4><table>" + vrows + "</table>" +
+    "<h4>Diphthongs</h4><table>" + drows + "</table>" +
+    '<p class="small muted">Weak vowels /i/ and /u/ occur only in unstressed positions and are not counted among the 12.</p>' +
+    '<div class="rowbtns"><button class="secondary" data-act="closemodal">Close</button></div>');
+}
+function showErrorLog(){
+  if (!S.errors.length){ openModal("<h2>Error log</h2><p class=\"muted\">Empty. It fills as you get things wrong.</p><div class=\"rowbtns\"><button class=\"secondary\" data-act=\"closemodal\">Close</button></div>"); return; }
+  const md = "# Phonology error log\n\n" + S.errors.map(e =>
+    "- **" + e.m + "** — " + e.q + "\n  - you: " + e.you + "\n  - model: " + e.model).join("\n");
+  openModal("<h2>Error log</h2><p class=\"small muted\">Your last " + S.errors.length +
+    " wrong or partial answers, as Markdown. Copy it into your DELTA notes.</p><textarea id=\"errText\">" +
+    esc(md) + "</textarea><div class=\"rowbtns\"><button class=\"secondary\" data-act=\"copyerr\">Copy</button>" +
+    "<button class=\"secondary\" data-act=\"closemodal\">Close</button></div>");
+}
+function showProgress(){
+  openModal("<h2>Progress</h2><p class=\"small muted\">Storage is currently: <b>" + esc(storeMode) +
+    "</b>. Copy this text to move progress to another device, or paste someone else's and import it.</p>" +
+    "<textarea id=\"progText\">" + esc(JSON.stringify(S)) + "</textarea>" +
+    '<div class="rowbtns"><button class="secondary" data-act="copyprog">Copy</button>' +
+    '<button class="secondary" data-act="importprog">Import what is in the box</button>' +
+    '<button class="secondary" data-act="closemodal">Close</button></div>');
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-mod],[data-phase],[data-choice],[data-syl],[data-key],[data-say],[data-act],[data-mark]");
+  if (!t) return;
+  if (t.hasAttribute("data-mod")){ currentModule = +t.getAttribute("data-mod"); currentPhase = "learn"; S.lastModule = currentModule; persist(); render(); $("sidebar").classList.remove("open"); return; }
+  if (t.hasAttribute("data-phase")){ currentPhase = t.getAttribute("data-phase"); render(); return; }
+  if (t.hasAttribute("data-choice")){ answerMCQ(+t.getAttribute("data-choice")); return; }
+  if (t.hasAttribute("data-syl")){ answerStress(+t.getAttribute("data-syl")); return; }
+  if (t.hasAttribute("data-mark")){ selfMark(parseFloat(t.getAttribute("data-mark"))); return; }
+  if (t.hasAttribute("data-say")){ speak(t.getAttribute("data-say")); return; }
+  if (t.hasAttribute("data-key")){
+    const inp = $("ipaInput"); if (!inp || inp.disabled) return;
+    const k = t.getAttribute("data-key");
+    const s = inp.selectionStart, en = inp.selectionEnd;
+    if (k === "BKSP"){
+      if (s !== en) inp.value = inp.value.slice(0, s) + inp.value.slice(en);
+      else if (s > 0) inp.value = inp.value.slice(0, s - 1) + inp.value.slice(s);
+      inp.focus(); inp.selectionStart = inp.selectionEnd = Math.max(0, s - 1);
+    } else {
+      inp.value = inp.value.slice(0, s) + k + inp.value.slice(en);
+      inp.focus(); inp.selectionStart = inp.selectionEnd = s + k.length;
+    }
+    return;
+  }
+  const act = t.getAttribute("data-act");
+  if (act === "menu") $("sidebar").classList.toggle("open");
+  if (act === "home") render();
+  if (act === "submit") submitTyped();
+  if (act === "reveal") revealDefinition();
+  if (act === "submitterm") submitTerm();
+  if (act === "revealana") revealAnalysis();
+  if (act === "scoreana") scoreAnalysis();
+  if (act === "next") nextQuestion();
+  if (act === "dash"){ renderDashboard(); $("sidebar").classList.remove("open"); }
+  if (act === "review"){ startReview(); $("sidebar").classList.remove("open"); }
+  if (act === "sync"){ showSync(); $("sidebar").classList.remove("open"); }
+  if (act === "synccreate") cloud.create();
+  if (act === "syncon"){
+    const v = ($("syncUrlInput").value || "").trim();
+    if (!/^https:\/\//.test(v)) syncNote("that does not look like an https address", false);
+    else { S.syncUrl = v; persist(); cloud.pull().then(() => cloud.push()); }
+  }
+  if (act === "syncpull") cloud.pull();
+  if (act === "syncpush") cloud.push();
+  if (act === "syncoff"){ S.syncUrl = ""; persist(); syncNote("sync is off on this device", true); }
+  if (act === "reference") showReference();
+  if (act === "errorlog") showErrorLog();
+  if (act === "progress") showProgress();
+  if (act === "closemodal") closeModal();
+  if (act === "copyerr" && navigator.clipboard) navigator.clipboard.writeText($("errText").value);
+  if (act === "copyprog" && navigator.clipboard) navigator.clipboard.writeText($("progText").value);
+  if (act === "importprog"){
+    try { S = Object.assign({}, DEFAULT_STATE, JSON.parse($("progText").value)); persist(); closeModal(); render(); }
+    catch(err){ alert("That is not valid progress text."); }
+  }
+  if (act === "reset"){
+    if (confirm("Clear all progress, boxes and the error log?")){
+      S = JSON.parse(JSON.stringify(DEFAULT_STATE)); currentModule = 0; currentPhase = "learn"; persist(); render();
+    }
+  }
+});
+$("modal").addEventListener("click", e => { if (e.target.id === "modal") closeModal(); });
+
+/* ---------- boot ---------- */
+(async function boot(){
+  const saved = await store.load();
+  if (saved) S = Object.assign({}, DEFAULT_STATE, saved);
+  currentModule = Math.min(S.lastModule || 0, MODULES.length - 1);
+  $("storeStatus").textContent = "Storage: " + storeMode;
+  if ("speechSynthesis" in window){ loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+  else $("voiceStatus").textContent = "Audio: not available";
+  if (S.syncUrl){ $("syncStatus").textContent = "Sync: checking"; await cloud.pull(true); }
+  else $("syncStatus").textContent = "Sync: off";
+  renderDashboard();
+})();
+</script>
+</body>
+</html>
